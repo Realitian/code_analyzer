@@ -17,21 +17,12 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
-import { ButtonConstant } from '../constants'
+import Fade from '@material-ui/core/Fade';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import Grid from '@material-ui/core/Grid'
-/**
- * Table pagination Component style sheets
- */
-const actionsStyles = theme => ({
-  root: {
-    flexShrink: 0,
-    color: theme.palette.text.secondary,
-    marginLeft: theme.spacing.unit * 2.5
-  }
-})
+import Toolbar from '@material-ui/core/Toolbar'
 
 /**
  * Component style sheets
@@ -40,28 +31,42 @@ const styles = theme => ({
   toolbar: {
     width: '100%'
   },
-  table: {
-    minWidth: 500
+  tableWrapper: {
+    paddingLeft: theme.spacing.unit*4,
+    paddingRight: theme.spacing.unit*4,
   },
+  paper: {
+    marginTop: theme.spacing.unit * 4,
+    marginBottom: theme.spacing.unit * 4,
+    paddingTop: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing.unit * 4,
+    paddingRight: theme.spacing.unit * 4,
+  },
+  textfield: {
+    width: '80vw'
+  },
+  // table: {
+  //   minWidth: 500,
+  //   marginLeft: theme.spacing.unit,
+  //   marginRight: theme.spacing.unit,
+  // },
 
-  tableCell: {
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit
-  },
+  // tableCell: {
+  //   paddingLeft: theme.spacing.unit,
+  //   paddingRight: theme.spacing.unit,
+  //   paddingTop: theme.spacing.unit,
+  //   paddingBottom: theme.spacing.unit
+  // },
   title: {
-    flex: '0 0 auto'
+    flex: '0 0 auto',
+    marginTop: theme.spacing.unit * 4,
+    paddingTop: theme.spacing.unit * 4,
   },
   spacer: {
     flex: '1 1 100%'
   },
-  paper: {
-    paddingTop: theme.spacing.unit * 4,
-    paddingBottom: theme.spacing.unit * 4,
-    paddingLeft: theme.spacing.unit * 12,
-    paddingRight: theme.spacing.unit * 12,
-  },
+  
   buttons: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -99,42 +104,57 @@ class CodeAnalysis extends React.Component {
    * Render function to view this component
    */
   render() {
-    const { classes, tables } = this.props
+    const { classes, tables, loading } = this.props
 
     return (
       <div>
         <Paper className={classes.paper}>
-          <Grid container alignItems="flex-end" spacing={24}>
-            <Grid item xs={10}>
-              <TextField
+        <Toolbar className={classes.toolbar}>
+        <div>
+            <TextField className={classes.textfield}
                 id="repo_url"
                 name="repo_url"
                 label="Repo Url"
-                fullWidth
                 autoComplete="repo_url"
                 onChange={this.handleChangeStringCondition()}
               />
-            </Grid>
-            <Grid item xs={2}>
-              <Button
-                size="large"
-                variant="contained"
-                color="primary"
-                onClick={() => this.props.onClick(this.state.repo_url)}
-                className={classes.button}>
-                Analyze
-              </Button>
-            </Grid>
-          </Grid>
+          </div>
+
+          <div className={classes.spacer} />
+          
+          <div>
+            <Fade 
+              in={loading}
+              style={{ transitionDelay: '800ms',}}
+              unmountOnExit>
+              <CircularProgress />
+            </Fade>
+          </div>
+
+          <div className={classes.spacer} />
+          
+          <div>
+            <Button
+              size="large"
+              variant="contained"
+              color="primary"
+              onClick={() => this.props.onClick(this.state.repo_url)}
+              className={classes.button}>
+              Analyze
+            </Button>
+          </div>
+          
+        </Toolbar>
         </Paper>
+
+        <div className={classes.spacer} />
+
         {tables.map((table, index) => {
           return (
             <Paper className={classes.tableWrapper}>
-              <div className={classes.title}>
-                <Typography variant="h5">
-                  {table.title}
-                </Typography>
-              </div>
+              <Typography variant="h5" className={classes.title}>
+                {table.title}
+              </Typography>
               <Table className={classes.table}>
                 <TableHead>
                   <TableRow>

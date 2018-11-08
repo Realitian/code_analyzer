@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import NoMatch from './routes/NoMatch.js'
 import withRoot from './withRoot'
-import ContactListContainer from './routes/ContactListContainer'
 import CodeAnalysisContainer from './routes/CodeAnalysisContainer'
 
 const styles = theme => ({
@@ -32,14 +31,10 @@ class App extends Component {
   };
 
   render() {
-    // const { classes } = this.props;
-    // const { open } = this.state;
-
     return (
       <Router>
         <Switch>
-          <Route exact path = "/" component = {ContactListContainer} />
-          <Route exact path = "/code_analysis" component = {CodeAnalysisContainer} />
+          <Route exact path = "/" component = {CodeAnalysisContainer} />
           <Route component = {NoMatch}/>
         </Switch>
       </Router>

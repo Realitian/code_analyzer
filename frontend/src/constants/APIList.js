@@ -35,7 +35,7 @@ const APIList = {
   /**
    * API to get code analysis result
    */
-  CODE_ANALYSIS_SERVICE_URL: 'http://localhost:8000/api/code_analysis'
+  CODE_ANALYSIS_SERVICE_URL: 'http://127.0.0.1:5000/api'
 }
 
 export default APIList

@@ -10,7 +10,6 @@
  */
 import React, { Component } from 'react'
 import { CodeAnalysisWrapper, CodeAnalysis } from '../components'
-import { ButtonConstant, CodeConstant, LabelConstant } from '../constants'
 import * as customerService from '../services/Customers'
 
 /**
@@ -29,35 +28,8 @@ class CodeAnalysisContainer extends Component {
     super(props)
 
     this.state = {
-      tables: [
-        {
-          title: 'Overview',
-          headers: [
-            'Language',
-            'Size(KB)',
-            'Line Counts',
-          ],
-          rows: [
-            ['C', 123, 63],
-            ['C++', 235, 642],
-            ['PHP', 634, 12512]
-          ]
-        },
-        {
-          title: 'Details',
-          headers: [
-            'Path',
-            'Language',
-            'Size(KB)',
-            'Line Counts',
-          ],
-          rows: [
-            ['aaa', 'C', 12623463, 6346],
-            ['bbb', 'C++', 1566, 634],
-            ['gab', 'PHP', 623, 63463]
-          ]
-        }
-      ]
+      tables: [],
+      loading: false
     }
   }
 
@@ -65,11 +37,26 @@ class CodeAnalysisContainer extends Component {
    * Handle function for clicking buttons
    */
   handleButtonClick = (repo_url) => {
-    customerService.getCodeAnalysisResult(repo_url).then(res => {
-      if (res.data.code === CodeConstant.OK) {
-        this.setState({
-          tables: res.data.data          
-        })
+    this.setState({
+      loading: true
+    })
+
+    let param = {repo_url: repo_url}
+    customerService.getCodeAnalysisResult(param).then(res => {
+      this.setState({
+        loading: false
+      })
+
+      console.log(res)
+
+      if (res.status === 200) {
+        if ( res.data.ok ) {
+          this.setState({
+            tables: res.data.data
+          })
+        } else {
+          console.log(res.data.msg)
+        }        
       } else {
         // output error message
         console.log('Get code analysis error')
@@ -83,12 +70,13 @@ class CodeAnalysisContainer extends Component {
    * Render function to view this component
    */
   render() {
-    const {tables} = this.state
+    const {tables, loading} = this.state
     return (
       <div>
         <CodeAnalysisWrapper>
           <CodeAnalysis 
             tables={tables}
+            loading={loading}
             onClick={this.handleButtonClick}
           />
         </CodeAnalysisWrapper>

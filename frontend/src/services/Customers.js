@@ -13,25 +13,6 @@
 import axios from 'axios'
 import { APIList } from '../constants'
 
-export async function getCustomerList() {
-  return axios.get(`${APIList.BASE_URL}${APIList.GET_CUSTOMER_LIST}`)
-}
-
-/**
- * Get contact list
- *
- * @author  HuangTuring <huang@turingai.net>
- * @param
- * @return  object
- */
-export function getContactList(data) {
-  const header = {
-    'Content-Type': 'application/json'
-  }
-
-  return axios.get(`${APIList.BASE_URL}${APIList.GET_CONTACT_LIST}`, {params: data}, {headers: header})
-}
-
 /**
  * Get code analysis result
  *

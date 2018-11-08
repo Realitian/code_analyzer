@@ -8,14 +8,10 @@
  * @version    2.0
  * @link       https://turing.ly
  */
-import ContactList from './ContactList'
-import ContactListWrapper from './ContactListWrapper'
 import CodeAnalysis from './CodeAnalysis'
 import CodeAnalysisWrapper from './CodeAnalysisWrapper'
 
 export {
-  ContactList,
-  ContactListWrapper,
   CodeAnalysis,
   CodeAnalysisWrapper
 }
