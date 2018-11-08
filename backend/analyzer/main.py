@@ -3,7 +3,6 @@ from binaryornot.check import is_binary
 from linguist.file_blob import FileBlob
 import langdetect
 import json
-import subprocess
 from util import *
 
 class Analyzer:
@@ -13,23 +12,8 @@ class Analyzer:
         self.lang = None
 
     def analyze(self, repo_url):
-        self.download_repo(repo_url)
+        result = None
 
-        unzip(zip_file_name)
-        unziped_folder_name = repo[2] + '-master'
-
-        list_dir = ListDir(unziped_folder_name)
-        list_dir.do()
-        total_file_count = len(list_dir.files)
-        readme_lang = list_dir.lang
-
-        rmdir(unziped_folder_name)
-
-        subprocess.call(['rm', 'master.zip'])
-
-        return json.dumps(['Test', 'Success'])
-
-    def download_repo(self, repo_url):
         try:
             default_branch = 'master'
             url = repo_url + '/archive/' + default_branch + '.zip'
@@ -37,11 +21,49 @@ class Analyzer:
             command = subprocess.Popen(['wget', url], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = command.communicate()
             if err.find('200 OK') < 0:
-                return {err: 'could not download repository'}
+                result = {'ok': False, 'msg': 'could not download repository'}
             else:
+                unzip_to('master.zip', 'master')
+                unziped_folder_name = 'master'
+
+                self.dir = unziped_folder_name
+                self.listdir(self.dir)
+
+                rmdir(unziped_folder_name)
+                rmfile('master.zip')
+
+                statics = {}
+                for file in self.files:
+                    if not file[1]:
+                        if file[4] in statics:
+                            size = statics[file[4]][0]
+                            line_count = statics[file[4]][1]
+                            size += file[2]
+                            line_count += file[3]
+                            statics[file[4]] = (size, line_count)
+                        else:
+                            statics[file[4]] = (file[2], file[3])
+
+                headers = ['Language', 'Size', 'Line Count']
+
+                rows = []
+                for key in statics:
+                    if not key is 'None':
+                        rows.append([key, statics[key][0], statics[key][1]])
+
+                data = [
+                    {
+                        'title': 'Programming Languages Analysis Result',
+                        'headers': headers,
+                        'rows': rows
+                    }]
+
+                result = {'ok': True, 'data': data}
 
         except Exception as ex:
-            pass
+            result = {'ok': False, 'msg': ex}
+
+        return json.dumps(result)
 
     def listdir(self, d):
         if not os.path.isdir(d):
@@ -82,5 +104,5 @@ class Analyzer:
 
 if __name__ == '__main__':
     path = '/home/jin/Downloads/grpc-master'
-    l = Analyzer(path)
-    l.do()
+    l = Analyzer()
+    print (l.analyze('https://github.com/swiftype/app-search-demo-react'))
