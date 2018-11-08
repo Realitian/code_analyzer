@@ -8,10 +8,11 @@ from util import *
 class Analyzer:
     def __init__(self):
         self.dir = ''
+
+    def analyze(self, repo_url):
         self.files = []
         self.lang = None
 
-    def analyze(self, repo_url):
         result = None
 
         try:
@@ -105,4 +106,4 @@ class Analyzer:
 if __name__ == '__main__':
     path = '/home/jin/Downloads/grpc-master'
     l = Analyzer()
-    print (l.analyze('https://github.com/swiftype/app-search-demo-react'))
+    print (l.analyze('https://github.com/gameplay3d/GamePlay'))
