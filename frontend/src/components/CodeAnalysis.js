@@ -23,6 +23,8 @@ import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Toolbar from '@material-ui/core/Toolbar'
+import Tooltip from '@material-ui/core/Tooltip';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 /**
  * Component style sheets
@@ -79,6 +81,78 @@ const styles = theme => ({
   }
 })
 
+function desc(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function stableSort(array, cmp) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = cmp(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map(el => el[0]);
+}
+
+function getSorting(order, orderBy) {
+  return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
+}
+
+class EnhancedTableHead extends React.Component {
+  createSortHandler = property => event => {
+    this.props.onRequestSort(event, property);
+  };
+
+  render() {
+    const { order, orderBy, rows } = this.props;
+
+    return (
+      <TableHead>
+        <TableRow>
+          {rows.map(row => {
+            return (
+              <TableCell
+                key={row.id}
+                numeric={row.numeric}
+                padding={row.disablePadding ? 'none' : 'default'}
+                sortDirection={orderBy === row.id ? order : false}
+              >
+                <Tooltip
+                  title="Sort"
+                  placement={row.numeric ? 'bottom-end' : 'bottom-start'}
+                  enterDelay={300}
+                >
+                  <TableSortLabel
+                    active={orderBy === row.id}
+                    direction={order}
+                    onClick={this.createSortHandler(row.id)}
+                  >
+                    {row.label}
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell>
+            );
+          }, this)}
+        </TableRow>
+      </TableHead>
+    );
+  }
+}
+
+EnhancedTableHead.propTypes = {
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.string.isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rows: PropTypes.number.isRequired,
+};
+
 class CodeAnalysis extends React.Component {
 
   constructor() {
@@ -87,8 +161,21 @@ class CodeAnalysis extends React.Component {
   }
 
   state = {
-    repo_url: ''
+    repo_url: '',
+    order: 'asc',
+    orderBy: 'calories',
   }
+
+  handleRequestSort = (event, property) => {
+    const orderBy = property;
+    let order = 'desc';
+
+    if (this.state.orderBy === property && this.state.order === 'desc') {
+      order = 'asc';
+    }
+
+    this.setState({ order, orderBy });
+  };
 
   /**
    * Handle function to change query condition
@@ -105,6 +192,7 @@ class CodeAnalysis extends React.Component {
    */
   render() {
     const { classes, tables, loading } = this.props
+    const { order, orderBy } = this.state
 
     return (
       <div>
@@ -156,6 +244,12 @@ class CodeAnalysis extends React.Component {
                 {table.title}
               </Typography>
               <Table className={classes.table}>
+                <EnhancedTableHead
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={this.handleRequestSort}
+                  rows={table.headers}
+                />
                 <TableHead>
                   <TableRow>
                     {table.headers.map((name, index) => {
@@ -168,7 +262,8 @@ class CodeAnalysis extends React.Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {table.rows.map(row => {
+                  {stableSort(table.rows, getSorting(order, orderBy))
+                    .map(row => {
                     return (
                       <TableRow key={row.id}>
                         {row.map(cell => {

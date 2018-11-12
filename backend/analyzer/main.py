@@ -74,6 +74,12 @@ class Analyzer:
                     else:
                         statics[file[4]] = (file[2], file[3])
 
+            print (statics)
+            sorted(statics.iteritems())
+            print (statics)
+
+            # print(sorted(key_value.items(), key=lambda kv: (kv[1], kv[0])))
+
             headers = ['Language', 'Size', 'Line Count']
 
             rows = []
@@ -152,4 +158,4 @@ class Analyzer:
 
 if __name__ == '__main__':
     l = Analyzer()
-    print (l.analyze('https://github.com/gameplay3d'))
+    print (l.analyze('https://github.com/iamhosseindhv/notistack'))
