@@ -1,0 +1,323 @@
+#question-reach {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin-left: -20px;
+    opacity: 0;
+	visibility: hidden;
+
+    &.show {
+        opacity: 1;
+        visibility: visible;
+        @include transition(all $smooth 1s);
+    }
+    &.hide {
+        opacity: 0;
+        visibility: hidden;
+        @include transition(all $smooth 1s);
+    }
+}
+
+#question-reach-bk {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url("turing_signup.png");
+    opacity: 0.5;
+    background-size: 100% auto;
+    visibility: hidden;
+}
+
+#reach-left-bk {
+    background-color: black;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 100%;
+    &.show {
+        left: 0%;
+        @include transition(all $smooth 1s);
+
+        &.shrink {
+            width: 50%;
+            @include transition(all $smooth 1s);
+        }
+	}
+	
+	@media screen and (max-width: $left_side_visible_size) {
+		display: none;
+    }
+}
+
+#reach-left {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+
+    div.body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-self: center;
+        align-content: center;
+        align-items: center;
+        padding-bottom: $left_panel_padding_bottom;
+        padding-left: $left_panel_padding_right;
+
+        h2 {
+            color: white;
+            width: 100%;
+            text-align: left;
+            font-family: $font_left;
+        }
+        div {
+            width: 100%;
+            margin-top: $left_panel_descriptioin_padding_top;
+            text-align: left;
+            h3 {
+                width: 100%;
+                text-align: left;
+
+                color: white;
+                position: relative;
+                font-family: $font_left;
+                padding-bottom: $left_panel_descriptioin_padding_bottom;
+            }
+        }
+    }
+
+    @media screen and (max-width: $left_side_visible_size) {
+		display: none;
+    }
+}
+
+#reach-logo {
+    color: white;
+    font-family: $font_left;
+    font-size: $logo_font_size;
+    position: absolute;
+    left: $logo_left_x;
+    top: $logo_top_y;
+    @media screen and (max-width: $screen-mobile) {
+        left: $logo_left_x_mobile;
+        top: $logo_top_y_mobile;
+    }
+    text-align: left;
+
+    @media screen and (max-width: $left_side_visible_size) {
+		display: none;
+    }
+}
+
+#reach-right {
+    // @media screen and (min-width: $left_side_visible_size) {
+    //     background-color: white;
+    // }
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 100%;
+    overflow-y: auto;
+    &.show {
+        left: 50%;
+        
+        @media screen and (max-width: $left_side_visible_size) {
+            left: 0%;
+            width: 100%;
+        }
+        
+        @include transition(all $smooth 1s);
+    }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+
+    .small-lbl {
+        font-size: $email_font_size;
+        font-family: $font_right_3;
+    }
+    .box {
+        height: $email_height;
+        @media screen and (max-width: $screen-min) {
+            height: $email_height_s;
+        }
+    }
+
+    h3 {
+        font-family: $font_left;
+        position: absolute;
+        top: $logo_top_y;
+        right: $logo_left_x;
+        @media screen and (max-width: $screen-mobile) {
+            right: $logo_left_x_mobile;
+            top: $logo_top_y_mobile;
+        }
+        font-size: $logo_font_size;
+        text-align: right;
+        color: $right_corner_color;
+    }
+    div.body {       
+        input {
+            margin-bottom: $email_margin-bottom_s;
+            margin-top: $email_margin-bottom_s;
+            @media screen and (min-width: $left_side_visible_size+1) {
+                margin-bottom: $email_margin-bottom;
+                margin-top: $email_margin-bottom;
+            }
+            border: 0;
+            outline: 0;
+            background: transparent;
+            border-bottom: 1px solid $right_bottom_line_color;
+            color: $right_input_color;
+
+            &.invalid {
+                border: 1px solid red;
+            }
+        }
+        input:focus {
+            border: 0;
+            border-bottom: 1px solid $btn-primary-color;
+        }
+
+        @media screen and (max-width: $screen-limit) {
+            width: $body_width_l;
+        }
+        @media screen and (max-width: $screen-medium) {
+            width: $body_width_m;
+        }
+        @media screen and (max-width: $screen-standard) {
+            width: $body_width_l;
+        }
+        @media screen and (max-width: $screen-tablet) {
+            width: $body_width_l;
+        }
+        @media screen and (max-width: $screen-mobile) {
+            width: $body_width_m;
+        }
+        @media screen and (max-width: $screen-min) {
+            width: $body_width_s;
+        }
+
+        @media screen and (max-width: $screen-limit) {
+            padding-left: $body_padding_left;
+        }
+        @media screen and (max-width: $left_side_visible_size) {
+            padding-left: 0;
+        }
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        h2 {
+            font-size: $right_sing_up_font_size;
+            color: $right_title_color;
+            font-family: $font_right_2;
+        }
+        h4 {
+            font-family: $font_right_3;
+            font-size: $right_lbl2_font_size;
+            text-align: center;
+            color: $right_subtitle_color;
+            margin-top: $right_lbl2_margin-top;
+            margin-bottom: $right_lbl2_margin-bottom;
+            @media screen and (max-width: $screen-mobile) {
+                margin-top: $right_lbl2_margin-top_s;
+                margin-bottom: $right_lbl2_margin-bottom_s;
+            }
+        }
+        #signup-normal {
+            font-family: $font_left;
+            border-radius: 0px;
+            margin-top: $singup_btn_margin-top;
+            margin-bottom: $singup_btn_margin-bottom;
+            height: $singup_btn_height;
+            @media screen and (max-width: $screen-mobile) {
+                margin-top: $singup_btn_margin-top_s;
+                margin-bottom: $singup_btn_margin-bottom_s;
+            }
+        }
+        #trouble {
+            font-family: $font_right_3;
+            text-align: center;
+            color: $right_subtitle_color;
+
+            margin-bottom: $trouble_margin-bottom;
+            @media screen and (max-width: $screen-mobile) {
+                margin-bottom: $trouble_margin-bottom_s;
+            }
+        }
+
+        $elements: 10;
+        @for $i from 1 to $elements {
+            :nth-child(#{$i}) {
+                @include transform(translateY(10vh) translateX(0) scale(1) translateZ(0));
+                @include transition(opacity 0s, transform 0s);
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    }
+    div.body.show {
+        $elements: 10;
+        @for $i from 1 to $elements {
+            :nth-child(#{$i}) {
+                opacity: 1;
+                visibility: visible;
+                @include transform(translateY(0vh) translateX(0) scale(1) translateZ(0));
+                @include transition(transform $i*0.1 + 0.3s $smooth2 $i*0.1 + 0.0s, opacity $i*0.1 + 0.3s $smooth2 $i*0.1 + 0.0s);
+            }
+        }
+    }
+    
+	div.fotter {
+		position: absolute;
+		background-color: white;
+        bottom: 0%;
+        height: $fotter_height;
+        @media screen and (max-width: $screen-mobile) {
+            height: $fotter_height_s;
+        }
+        width: 100%;
+        border-top: 1px solid $right_bottom_line_color;
+
+        display: flex;
+        // flex-direction: column;
+        justify-content: center;
+        align-self: center;
+        align-content: center;
+        align-items: center;
+
+        a.fotter-text {
+            @media screen and (max-width: $screen-limit) {
+                width: $body_width_l;
+                padding-left: $body_padding_left;
+            }
+            @media screen and (max-width: $left_side_visible_size) {
+                padding-left: 0;
+                width: 100%;
+            }
+    
+            color: #202020;
+            font-size: $fotter_font_size;
+            font-family: $font_right_3;
+            @media screen and (max-width: $screen-min) {
+                font-size: $fotter_font_size_s;
+            }
+            
+            text-align: center;
+            color: $right_corner_color;
+        }
+    }    
+}

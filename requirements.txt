@@ -1,0 +1,9 @@
+binaryornot
+flask
+flask-cors
+mime
+charlockholmes
+pygments
+scanner
+langdetect
+pygithub

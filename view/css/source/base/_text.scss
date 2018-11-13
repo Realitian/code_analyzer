@@ -1,0 +1,106 @@
+//       SUMMARY TABLE     
+// =========================
+// 1. Global
+// =========================
+// 1. Global
+// =========================
+html {
+    font-size: 10px;
+}
+
+body {
+    color: #262626;
+    font-family: Arial;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    text-decoration: none;
+}
+
+.to-split,
+.to-split-word {
+    span {
+        display: inline-block;
+        opacity: 0;
+        visibility: hidden;
+        @include transform(translateY(50px) translateZ(0) skewY(5deg));
+        &:first-child {
+            @include transition(all 3s $smooth 0.07s);
+        }
+        $elements: 40;
+        @for $i from 1 to $elements {
+            &:nth-child(#{$i + 1}) {
+                @include transition(all 3s $smooth $i*0.07s);
+            }
+        }
+    }
+    &.show {
+        span {
+            opacity: 1;
+            visibility: visible;
+            @include transform(translateY(0) translateZ(0) skewY(0));
+        }
+        &.hide {
+            span {
+                @include transform(translateY(-50px) translateZ(0) skewY(-5deg));
+                opacity: 0;
+                visibility: hidden;
+                &:first-child {
+                    @include transition(opacity 0.6s $sharp 0.3s, visibility 0.6s $sharp 0.3s, transform 1s $sharp 0.1s);
+                }
+                $elements: 15;
+                @for $i from 1 to $elements {
+                    &:nth-child(#{$i + 1}) {
+                        @include transition(opacity 0.6s $sharp 0.3s, visibility 0.6s $sharp 0.3s, transform 1s $sharp $i*0.1s);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.to-split-word-horizontal {
+    span {
+        display: inline-block;
+        opacity: 0;
+        visibility: hidden;
+        @include transform(translateX(30px) translateZ(0));
+        &:first-child {
+            @include transition(all 0.8s $sharp 0.1s);
+        }
+        $elements: 15;
+        @for $i from 1 to $elements {
+            &:nth-child(#{$i + 1}) {
+                @include transition(all 0.8s $sharp $i*0.1s);
+            }
+        }
+    }
+    &.show {
+        span {
+            opacity: 1;
+            visibility: visible;
+            @include transform(translateX(0) translateZ(0));
+        }
+        &.hide {
+            span {
+                @include transform(translateX(-30px) translateZ(0));
+                opacity: 0;
+                visibility: hidden;
+                &:first-child {
+                    @include transition(opacity 0.6s $sharp 0.3s, visibility 0.6s $sharp 0.3s, transform 0.8s $sharp 0.1s);
+                }
+                $elements: 15;
+                @for $i from 1 to $elements {
+                    &:nth-child(#{$i + 1}) {
+                        @include transition(opacity 0.6s $sharp 0.3s, visibility 0.6s $sharp 0.3s, transform 0.8s $sharp $i*0.1s);
+                    }
+                }
+            }
+        }
+    }
+}
