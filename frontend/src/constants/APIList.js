@@ -13,7 +13,8 @@ const APIList = {
   /**
    * API to get code analysis result
    */
-  CODE_ANALYSIS_SERVICE_URL: 'https://code.turing.services/api'
+  // CODE_ANALYSIS_SERVICE_URL: 'https://code.turing.services/api'
+  CODE_ANALYSIS_SERVICE_URL: 'http://localhost:5000/api'
 }
 
 export default APIList
