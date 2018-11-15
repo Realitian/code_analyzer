@@ -11,7 +11,8 @@ const cleanCSS = require('gulp-clean-css')
 const onError = err => {
     fancyLog(err)
 }
-let distBaseDir = './../../dist/signup/'
+
+let distBaseDir = './../static/'
 let srcBaseDir = './'
 
 gulp.task('scss', () => {

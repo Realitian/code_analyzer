@@ -56,3 +56,5 @@ function visualize() {
 
     d3.json("/data", callback); 
 }
+
+export default visualize

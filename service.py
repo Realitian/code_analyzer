@@ -41,7 +41,6 @@ def analyze():
     repo_url = request.args['repo_url']
     return analyzer.analyze(repo_url)
 
-
 @app.route("/")
 def index():
     return flask.render_template("index.html")

@@ -5,6 +5,17 @@
 // 1. Global
 // =========================
 
+$font_left: 'GorditaMedium';
+$logo_font_size: 1.6rem;
+$logo_top_y: 22px;
+$logo_left_x_mobile: 22px;
+$logo_top_y_mobile: 22px;
+$right_corner_color: #202124;
+$right_title_color: #000000;
+$right_subtitle_color: #999999;
+$right_input_color: #999999;
+$right_button_color: #ffffff;
+
 input:-webkit-autofill {
     &, &:focus, &:hover, &:active {
         box-shadow: 0 0 0px 9999px white inset !important;
