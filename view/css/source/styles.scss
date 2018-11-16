@@ -1,40 +1,17 @@
-//       SUMMARY TABLE     
-// =========================
-// 1. Libraries
-// 2. Base & helpers
-// 3. Pages
-// 4. Components
-// =========================
-
 // 1. Libraries
 // =========================
 @import "compass/css3";
 @import "compass/reset";
 
-
 // 2. Base & helpers
 // =========================
 @import "base/fonts";
-@import "base/variables";
+@import "base/defines";
 @import "helpers/mixins";
 @import "base/text";
 @import "base/layout";
 
-
-// 3. Vendors
-// =========================
-
-
-
-// 4. Components
-// =========================
-@import "components/footer";
-@import "components/header";
-
-
 // 5. Pages
 // =========================
 @import "pages/home";
-
-
-@import "visualization/skin";
+@import "pages/visualization";

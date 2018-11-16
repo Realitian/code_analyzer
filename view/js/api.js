@@ -1,5 +1,4 @@
-const baseUrl = 'http://54.219.185.225:3002/api/customers'
-// const baseUrl = 'https://customer.turing.website/api/customers'
+const baseUrl = 'https://turing.com/api/customers'
 
 const api = {
     postName: function(name) {

@@ -10,12 +10,37 @@ html {
 
 body {
     color: #262626;
-    font-family: Arial;
+    font-family: 'Gordita';
     font-size: 1.6rem;
     font-weight: 400;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.layout-logo {
+    font-family: $font_left;
+    font-size: $logo_font_size;
+    text-align: left;
+    color: $right_corner_color;
+}
+
+.title  {
+    color: #423f3f;
+    font-family: 'Gordita';
+    font-size: 4.4rem;
+    @include breakpoint($screen-desktop - 1px) {
+        font-size: 2.8rem;
+    }
+    font-weight: normal;
+    text-align: center;
+
+    &.sub{
+        font-size: 2.4rem;
+        @include breakpoint($screen-desktop - 1px) {
+            font-size: 2.2rem;
+        }
+    }
 }
 
 a {

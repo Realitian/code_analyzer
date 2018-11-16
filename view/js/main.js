@@ -1,4 +1,4 @@
-import visualizer from './visualyzer'
+import dashboard from './visualyzer'
 
 let isIOS = false
 let name = ''
@@ -106,27 +106,22 @@ function showInput() {
         )
     }, 1500)
     
-    $('#name').prop('disabled', false)
-    showTag($('#name'))
-
     setTimeout(() => {
-        $('.step-container')
-            .first()
-            .removeClass('totop')
-        $('#name').removeClass('totop')
-        $('#name-container')
+        $('#input-container')
             .find('.animate')
             .removeClass('hide')
-        $('#name-container')
+        $('#input-container')
             .find('.animate')
             .removeClass('gone')
-        $('#name-container')
+        $('#input-container')
             .find('.animate')
             .css('display', 'block')
         $('#label-name').removeClass('gone')
     }, 1500)
 
     setTimeout(function() {
+        $('#name').prop('disabled', false)
+        showTag($('#name'))
         showCursor('#name')
     }, 1500)
 }
@@ -147,36 +142,17 @@ function hideInput() {
             .first()
             .find('.animate')
             .addClass('gone')
-        setTimeout(() => {
-            $('.step-container')
-                .first()
-                .find('.animate')
-                .css('display', 'none')
-        }, 1200)
         $('#label-name').addClass('gone')
+        $('#input-container').css('display', 'none')
     }, 2000)
 }
 
 
 function showSubmit() {
-    console.log('showCompany')
-
     setTimeout(function() {
-        $('#company-container').css('display', 'block')
-        $('.step-container')
-            .eq(1)
-            .css('display', 'block')
-
-        $('.step-container')
-            .eq(1)
-            .removeClass('totop')
-        $('#company').removeClass('totop')
-
         setTimeout(() => {
-            $('.step-container')
-                .eq(1)
-                .find('.animate')
-                .css('display', 'block')
+            $('#thanks-container').css('display', 'block')
+
             showTag(
                 $('.step-container')
                     .eq(1)
@@ -186,9 +162,13 @@ function showSubmit() {
                 .eq(1)
                 .find('.animate')
                 .removeClass('gone')
-            $('#company').prop('disabled', false)
-            showTag($('#company'))
-            showCursor('#company')
+                
+            $('#label-thanks')
+                .addClass('show')
+                .find('.to-split-word-horizontal')
+                .addClass('show')
+            $('#label-thanks-arrow').addClass('show')
+
         }, 100)
     }, 2000)
 }
@@ -198,29 +178,39 @@ function hideSubmit() {
 }
 
 function showList() {
-    hideInput()
-    hideSubmit()
+    $('#input-container').css('display', 'none')
+    $('#thanks-container').css('display', 'none')
+    $('#list-container').css('display', 'block')
+    
+    setTimeout(function() {
+        showTag(
+            $('.step-container')
+                .eq(2)
+                .find('.animate')
+        )
 
+        setTimeout(function() {
+            showTag($('#dashboard'))
+        }, 1000)
+    }, 2000)
 }
 
 function inputProc() {
     $('#name').on('keydown', function(e) {
-        if (!$(this).hasClass('totop')) {
-            $('#label-name')
-                .addClass('show')
-                .find('.to-split-word-horizontal')
-                .addClass('show')
-            $('#label-name-arrow').addClass('show')
+        $('#label-name')
+            .addClass('show')
+            .find('.to-split-word-horizontal')
+            .addClass('show')
+        $('#label-name-arrow').addClass('show')
 
-            if (e.which == 13) {
-                e.preventDefault()
+        if (e.which == 13) {
+            e.preventDefault()
 
-                name = $(this).val()
-                if (name.length < 1) return
+            name = $(this).val()
+            if (name.length < 1) return
 
-                hideInput()
-                showSubmit()
-            }
+            hideInput()
+            showSubmit()
         }
     })
     $('#label-name').on('click', function(e) {
@@ -230,8 +220,6 @@ function inputProc() {
         hideInput()
         showSubmit()
     })
-
-    showInput()
 }
 
 const routeList = 'list'
@@ -267,5 +255,18 @@ $(document).ready(function() {
     
     inputProc()
     
-    visualizer()
+    var freqData=[
+        {State:'AL',freq:{low:4786, mid:1319, high:249}}
+        ,{State:'AZ',freq:{low:1101, mid:412, high:674}}
+        ,{State:'CT',freq:{low:932, mid:2149, high:418}}
+        ,{State:'DE',freq:{low:832, mid:1152, high:1862}}
+        ,{State:'FL',freq:{low:4481, mid:3304, high:948}}
+        ,{State:'GA',freq:{low:1619, mid:167, high:1063}}
+        ,{State:'IA',freq:{low:1819, mid:247, high:1203}}
+        ,{State:'IL',freq:{low:4498, mid:3852, high:942}}
+        ,{State:'IN',freq:{low:797, mid:1849, high:1534}}
+        ,{State:'KS',freq:{low:162, mid:379, high:471}}
+        ];
+    
+    dashboard('#dashboard',freqData);
 })
