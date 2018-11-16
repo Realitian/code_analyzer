@@ -88,7 +88,7 @@ gulp.task('dev', ['scss', 'webpack:dev'], () => {
         }
     })
     gulp.watch('css/source/**/*', ['scss'])
-    gulp.watch('js/main.js', ['webpack:dev'])
+    gulp.watch('js/*.js', ['webpack:dev'])
     gulp.watch('./index.html', ['bs-reload'])
 })
 
