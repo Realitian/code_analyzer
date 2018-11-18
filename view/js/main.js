@@ -78,10 +78,12 @@ function showCursor(tag) {
 
 function showTag(tag) {
     tag.removeClass('hide').addClass('show')
+    // tag.css('display', 'block')
 }
 
 function hideTag(tag) {
     tag.removeClass('show').addClass('hide')
+    // tag.css('display', 'none')
 }
 
 function showMain() {
@@ -191,6 +193,7 @@ function showList() {
 
         setTimeout(function() {
             showTag($('#dashboard'))
+            showTag($('#list'))
         }, 1000)
     }, 2000)
 }
@@ -220,6 +223,60 @@ function inputProc() {
         hideInput()
         showSubmit()
     })
+}
+
+function makeProcessing() {
+    var dataSet = [
+        ['1', 'tensorflow/tensorflow', '84%'],
+        ['2', 'd3/d3', '54%'],
+        ['3', 'tensorflow', '24%'],
+        ['4', 'd3', '64%'],
+        ['5', 'asg', '89%'],
+        ['6', 'tensorflow/tensorflow', '84%'],
+        ['7', 'd3/d3', '54%'],
+        ['8', 'tensorflow', '24%'],
+        ['9', 'd3', '64%'],
+        ['10', 'asg', '89%'],
+        ['11', 'tensorflow/tensorflow', '84%'],
+        ['12', 'd3/d3', '54%'],
+        ['13', 'tensorflow', '24%'],
+        ['14', 'd3', '64%'],
+        ['15', 'asg', '89%'],
+        ['16', 'tensorflow/tensorflow', '84%'],
+        ['17', 'd3/d3', '54%'],
+        ['18', 'tensorflow', '24%'],
+        ['19', 'd3', '64%'],
+        ['20', 'asg', '89%'],
+        ['21', 'tensorflow/tensorflow', '84%'],
+        ['22', 'd3/d3', '54%'],
+        ['23', 'tensorflow', '24%'],
+        ['24', 'd3', '64%'],
+        ['25', 'asg', '89%'],
+    ]
+
+    $('#datatable').DataTable({
+        data: dataSet,
+        columns: [
+            { title: "No" },
+            { title: "Name" },
+            { title: "Completed" }
+        ]
+      });
+
+      var table = $('#datatable').DataTable();
+
+      $('#datatable tbody').on('click', 'tr', function () {
+        var data = table.row( this ).data();
+        // alert( 'You clicked on '+data[0]+'\'s row' );
+
+        var tF = [
+            {type: "low", freq: 513},
+            {type: "mid", freq: 62346},
+            {type: "high", freq: 234},
+        ]
+
+        dashboard.update(tF)
+      } );
 }
 
 const routeList = 'list'
@@ -254,19 +311,14 @@ $(document).ready(function() {
     showMain()
     
     inputProc()
+
+    makeProcessing()
     
-    var freqData=[
-        {State:'AL',freq:{low:4786, mid:1319, high:249}}
-        ,{State:'AZ',freq:{low:1101, mid:412, high:674}}
-        ,{State:'CT',freq:{low:932, mid:2149, high:418}}
-        ,{State:'DE',freq:{low:832, mid:1152, high:1862}}
-        ,{State:'FL',freq:{low:4481, mid:3304, high:948}}
-        ,{State:'GA',freq:{low:1619, mid:167, high:1063}}
-        ,{State:'IA',freq:{low:1819, mid:247, high:1203}}
-        ,{State:'IL',freq:{low:4498, mid:3852, high:942}}
-        ,{State:'IN',freq:{low:797, mid:1849, high:1534}}
-        ,{State:'KS',freq:{low:162, mid:379, high:471}}
-        ];
+    var tF = [
+        {type: "low", freq: 21027},
+        {type: "mid", freq: 14830},
+        {type: "high", freq: 9364},
+    ]
     
-    dashboard('#dashboard',freqData);
+    dashboard.load('#dashboard',tF);
 })

@@ -219,6 +219,7 @@ input[type="text"] {
 
     visibility: hidden;
     opacity: 0;
+    // display: none;
 
     &.show {
         opacity: 1;

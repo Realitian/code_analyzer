@@ -1,0 +1,22 @@
+#list {
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 5%;
+    margin-bottom: 2%;
+
+    opacity: 0;
+    visibility: hidden;
+    // display: none;
+
+    @include transition(all 2.5s $smooth);
+
+    &.hide {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    &.show {
+        opacity: 1;
+        visibility: visible;
+    }
+}
