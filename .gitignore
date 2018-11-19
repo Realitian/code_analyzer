@@ -2,3 +2,5 @@
 view/css/compiled
 view/node_modules
 view/.sass-cache
+.idea
+view/package-lock.json
