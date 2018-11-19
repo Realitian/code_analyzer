@@ -1,0 +1,4 @@
+*.pyc
+view/css/compiled
+view/node_modules
+view/.sass-cache

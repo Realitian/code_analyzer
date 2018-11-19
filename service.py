@@ -22,11 +22,11 @@ import json
 import flask
 import numpy as np
 
-from analyzer.main import Analyzer
+from analyzer.main import Service
 
 app = Flask(__name__, static_url_path = "")
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-analyzer = Analyzer()
+service = Service()
 
 @app.errorhandler(400)
 def bad_request(error):
@@ -39,23 +39,24 @@ def not_found(error):
 @app.route('/api', methods = ['GET', 'POST'])
 def analyze():
     repo_url = request.args['repo_url']
-    return analyzer.analyze(repo_url)
+    return service.register(repo_url)
 
-@app.route("/")
-def index():
-    return flask.render_template("index.html")
+# @app.route("/")
+# def index():
+#     return flask.render_template("index.html")
 
-@app.route("/data")
-@app.route("/data/<int:ndata>")
-def data(ndata=100):
-    x = 10 * np.random.rand(ndata) - 5
-    y = 0.5 * x + 0.5 * np.random.randn(ndata)
-    A = 10. ** np.random.rand(ndata)
-    c = np.random.rand(ndata)
-    return json.dumps([{"_id": i, "x": x[i], "y": y[i], "area": A[i],
-        "color": c[i]}
-        for i in range(ndata)])
+# @app.route("/data")
+# @app.route("/data/<int:ndata>")
+# def data(ndata=100):
+#     x = 10 * np.random.rand(ndata) - 5
+#     y = 0.5 * x + 0.5 * np.random.randn(ndata)
+#     A = 10. ** np.random.rand(ndata)
+#     c = np.random.rand(ndata)
+#     return json.dumps([{"_id": i, "x": x[i], "y": y[i], "area": A[i],
+#         "color": c[i]}
+#         for i in range(ndata)])
 
 if __name__ == '__main__':
     # app.run(debug=True)
+    service.start()
     app.run(host='0.0.0.0', port=5000)
