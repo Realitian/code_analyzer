@@ -18,6 +18,7 @@ import queue
 import threading
 from analyzer import Analyzer
 import json
+from db import AnalysisDB
 
 QUEUE_MAXSIZE = 2
 WORKERS_MAXCOUNT = 10
@@ -37,10 +38,14 @@ class Service(threading.Thread):
             result = {'ok': False, 'msg': message}
             return json.dumps(result)
 
+        print ('put url', url)
         self.l.put(url)
 
         message = 'request of ' + url + 'had been registered'
         result = {'ok': True, 'msg': message}
+
+        print ('return result', message)
+
         return json.dumps(result)
 
     def run(self):
@@ -56,7 +61,7 @@ class Service(threading.Thread):
         for worker in self.workers:
             if worker.idle:
                 url = self.l.get()
-                print ('worked', url)
+                print ('working on ', url)
                 t = threading.Thread(target=worker.analyze(url))
                 t.start()
                 t.join()
@@ -64,7 +69,10 @@ class Service(threading.Thread):
 
     def status(self):
         # get status from db and show them.
-        pass
+        db = AnalysisDB()
+        result = db.status()
+        db.closeDB()
+        return json.dumps(result)
 
 if __name__ == '__main__':
     l = Service()

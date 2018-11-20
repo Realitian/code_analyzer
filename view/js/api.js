@@ -1,15 +1,13 @@
-const baseUrl = 'http://192.168.1.115/api/'
+const baseUrl = 'http://192.168.1.115:5000/api/'
 
 const api = {
-    postName: function(name) {
-        console.log('name', name)
-        let data = { full_name: name }
+    register: function(repo_url) {
+        let data = { repo_url: repo_url }
         $.ajax({
-            type: 'POST',
-            url: baseUrl,
+            type: 'GET',
+            url: baseUrl + 'register',
             dataType: 'JSON',
-            data: { data: data },
-            xhrFields: { withCredentials: true },
+            data: data,
             success: function(data) {
                 console.log(data)
             },
@@ -20,17 +18,14 @@ const api = {
         })
     },
 
-    postCompany: function(company_name) {
-        console.log('name', company_name)
-        let data = { company_name: company_name }
+    list: function(showTable) {
         $.ajax({
-            type: 'POST',
-            url: baseUrl,
+            type: 'GET',
+            url: baseUrl + 'list',
             dataType: 'JSON',
-            data: { data: data },
-            xhrFields: { withCredentials: true },
             success: function(data) {
                 console.log(data)
+                showTable(data)
             },
             error: function(xhr, status, error) {
                 console.log(status)

@@ -1,8 +1,10 @@
 import dashboard from './visualyzer'
+import api from './api';
 
 let isIOS = false
-let name = ''
+let repo_url = ''
 let debug = true
+var dataSet = []
 
 const screen_desktop = 1024
 const screen_standard = 976
@@ -179,11 +181,15 @@ function hideSubmit() {
     hideTag($('#company'))
 }
 
+function showTable(data) {
+    dataSet = data
+}
+
 function showList() {
     $('#input-container').css('display', 'none')
     $('#thanks-container').css('display', 'none')
     $('#list-container').css('display', 'block')
-    
+
     setTimeout(function() {
         showTag(
             $('.step-container')
@@ -192,8 +198,8 @@ function showList() {
         )
 
         setTimeout(function() {
-            showTag($('#dashboard'))
-            showTag($('#list'))
+            // showTag($('#dashboard'))
+            showTag($('.datatable'))
         }, 1000)
     }, 2000)
 }
@@ -209,52 +215,29 @@ function inputProc() {
         if (e.which == 13) {
             e.preventDefault()
 
-            name = $(this).val()
-            if (name.length < 1) return
+            repo_url = $(this).val()
+            if (repo_url.length < 1) return
+
+            api.register(repo_url)
 
             hideInput()
             showSubmit()
         }
     })
     $('#label-name').on('click', function(e) {
-        name = $('#name').val()
-        if (name.length < 1) return
+        repo_url = $('#name').val()
+        if (repo_url.length < 1) return
+
+        api.register(repo_url)
 
         hideInput()
         showSubmit()
     })
 }
 
+var table = null
 function makeProcessing() {
-    var dataSet = [
-        ['1', 'tensorflow/tensorflow', '84%'],
-        ['2', 'd3/d3', '54%'],
-        ['3', 'tensorflow', '24%'],
-        ['4', 'd3', '64%'],
-        ['5', 'asg', '89%'],
-        ['6', 'tensorflow/tensorflow', '84%'],
-        ['7', 'd3/d3', '54%'],
-        ['8', 'tensorflow', '24%'],
-        ['9', 'd3', '64%'],
-        ['10', 'asg', '89%'],
-        ['11', 'tensorflow/tensorflow', '84%'],
-        ['12', 'd3/d3', '54%'],
-        ['13', 'tensorflow', '24%'],
-        ['14', 'd3', '64%'],
-        ['15', 'asg', '89%'],
-        ['16', 'tensorflow/tensorflow', '84%'],
-        ['17', 'd3/d3', '54%'],
-        ['18', 'tensorflow', '24%'],
-        ['19', 'd3', '64%'],
-        ['20', 'asg', '89%'],
-        ['21', 'tensorflow/tensorflow', '84%'],
-        ['22', 'd3/d3', '54%'],
-        ['23', 'tensorflow', '24%'],
-        ['24', 'd3', '64%'],
-        ['25', 'asg', '89%'],
-    ]
-
-    $('#datatable').DataTable({
+    table = $('#table-processing').DataTable({
         data: dataSet,
         columns: [
             { title: "No" },
@@ -263,20 +246,55 @@ function makeProcessing() {
         ]
       });
 
-      var table = $('#datatable').DataTable();
+    //   var table = $('#table-processing').DataTable();
 
-      $('#datatable tbody').on('click', 'tr', function () {
+    var table1 = $('#table-langs').DataTable({
+        data: [],
+        columns: [
+            { title: "Language" },
+            { title: "File Size" },
+            { title: "Line Count" }
+        ],
+        bPaginate: false,
+        info: false,
+        searching: false,
+        order: [[ 2, "desc" ]]
+      });
+
+      $('#table-processing tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
-        // alert( 'You clicked on '+data[0]+'\'s row' );
 
-        var tF = [
-            {type: "low", freq: 513},
-            {type: "mid", freq: 62346},
-            {type: "high", freq: 234},
-        ]
+        var detail = JSON.parse(data[3])
+        if ( 'data' in detail ) {
+            var langs = detail.data[0].rows
+            console.log(langs)
 
-        dashboard.update(tF)
+            // table1.data = langs
+            table1.clear()
+            table1.rows.add(langs)
+            table1.draw()
+    
+            // var header = [
+            //     'Language', 'Line Count', 'Percent'
+            // ]
+    
+            // dashboard.update(header, langs)
+        }        
       } );
+
+      refresh()
+}
+
+function refresh() {
+    api.list(showTable)
+
+    table.clear()
+    table.rows.add(dataSet)
+    table.draw()
+
+    setTimeout(function() {
+        refresh()
+    }, 1000)
 }
 
 const routeList = 'list'
@@ -314,11 +332,18 @@ $(document).ready(function() {
 
     makeProcessing()
     
-    var tF = [
-        {type: "low", freq: 21027},
-        {type: "mid", freq: 14830},
-        {type: "high", freq: 9364},
-    ]
+    // var header = [
+    //     'Language', 'Line Count', 'Percent'
+    // ]
+
+    // var tF = [
+    //     ["Markdown", 6628, 216],
+    //     ["JavaScript", 12631, 489],
+    //     ["TypeScript", 3631, 129],
+    //     ["YAML", 94, 7],
+    //     ["JSON", 2864, 104],
+    //     ["HTML", 341, 12]
+    // ]
     
-    dashboard.load('#dashboard',tF);
+    // dashboard.load('#dashboard', header, tF);
 })

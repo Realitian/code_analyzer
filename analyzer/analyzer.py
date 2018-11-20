@@ -21,6 +21,7 @@ import langdetect
 import json
 from util import *
 from github import Github
+from db import AnalysisDB
 
 REPO_MAX_SIZE = 100 #MB
 
@@ -31,11 +32,24 @@ class Analyzer:
         self.idle = True
 
     def analyze(self, repo_url):
+        db = AnalysisDB()
+        try:
+            db.insert_url(repo_url)
+            db.closeDB()
+        except Exception as ex:
+            db.closeDB()
+            print (ex)
+            result = {'ok': False, 'msg': ex}
+            self.finished(json.dumps(result))
+            return
+
         self.idle = False
         self.files = []
         self.lang = None
 
         result = None
+
+        print ('analyzing', repo_url)
 
         try:
             repo_path = (repo_url.split('/'))
@@ -58,21 +72,34 @@ class Analyzer:
 
             if repo_name is None:
                 gh_user = g.get_user(user_name)
+
+                total = 0
+                for repo in gh_user.get_repos():
+                    total += 1
+
+                current = 0
                 for repo in gh_user.get_repos():
                     repo_name = repo.name
                     repo_size_mb = repo.size/1000
                     print ('size(MB)', repo_name, repo_size_mb)
-                    repo_url = 'https://github.com/' + user_name + '/' + repo_name
+                    url = 'https://github.com/' + user_name + '/' + repo_name
                     if repo_size_mb < REPO_MAX_SIZE:
-                        self.analyze_repo(repo_url)
+                        self.analyze_repo(url)
+
+                    db = AnalysisDB()
+                    db.update_url(repo_url, 100*current/total, '')
+                    print ('update', repo_url, 100*current/total)
+                    db.closeDB()
+
+                    current += 1
             else:
-                repo_url = 'https://github.com/' + user_name + '/' + repo_name
+                url = 'https://github.com/' + user_name + '/' + repo_name
                 gh_user = g.get_user(user_name)
                 repo = gh_user.get_repo(repo_name)
                 repo_size_mb = repo.size/1000
                 print ('size(MB)', repo_name, repo_size_mb)
                 if repo_size_mb < REPO_MAX_SIZE:
-                    self.analyze_repo(repo_url)
+                    self.analyze_repo(url)
 
             statics = {}
             for file in self.files:
@@ -105,6 +132,9 @@ class Analyzer:
                 }]
 
             result = {'ok': True, 'data': data}
+            db = AnalysisDB()
+            db.update_url(repo_url, 100, json.dumps(result))
+            db.closeDB()
 
         except Exception as ex:
             result = {'ok': False, 'msg': ex}
@@ -119,19 +149,21 @@ class Analyzer:
         default_branch = 'master'
         url = repo_url + '/archive/' + default_branch + '.zip'
 
-        command = subprocess.Popen(['wget', url], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output_file = str(self.id)+'.zip'
+
+        command = subprocess.Popen(['wget', '--output-document', output_file, url], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = command.communicate()
         if err.find('200 OK') < 0:
             result = {'ok': False, 'msg': 'could not download repository'}
         else:
-            unzip_to('master.zip', 'master')
+            unzip_to(output_file, 'master')
             unziped_folder_name = 'master'
 
             self.dir = unziped_folder_name
             self.listdir(self.dir)
 
             rmdir(unziped_folder_name)
-            rmfile('master.zip')
+            rmfile(output_file)
 
     def listdir(self, d):
         if not os.path.isdir(d):
@@ -171,5 +203,5 @@ class Analyzer:
         return len(self.files)
 
 if __name__ == '__main__':
-    l = Analyzer()
-    print (l.analyze('https://github.com/tensorflow'))
+    l = Analyzer(0)
+    print (l.analyze('https://github.com/bdefore/universal-redux-jwt'))
