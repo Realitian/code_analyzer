@@ -67,10 +67,17 @@ class Service(threading.Thread):
                 t.join()
                 return
 
-    def status(self):
+    def list(self):
         # get status from db and show them.
         db = AnalysisDB()
-        result = db.status()
+        result = db.list()
+        db.closeDB()
+        return json.dumps(result)
+
+    def lang(self, url):
+        # get status from db and show them.
+        db = AnalysisDB()
+        result = db.lang(url)
         db.closeDB()
         return json.dumps(result)
 

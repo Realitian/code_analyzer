@@ -3,16 +3,28 @@ import api from './api';
 
 let isIOS = false
 let repo_url = ''
-let debug = true
 var dataSet = []
 
-const screen_desktop = 1024
-const screen_standard = 976
-const screen_mobile = 640
+var table = $('#table-processing').DataTable({
+    // data: dataSet,
+    columns: [
+        { title: "No" },
+        { title: "Name" },
+        { title: "Completed" }
+    ]
+});
 
-let log = string => {
-    if (debug) console.log(string)
-}
+var langTable = $('#table-langs').DataTable({
+    columns: [
+        { title: "Language" },
+        { title: "File Size" },
+        { title: "Line Count" }
+    ],
+    bPaginate: false,
+    info: false,
+    searching: false,
+    order: [[ 2, "desc" ]]
+});
 
 function readyStringAnimation() {
     $('.to-split').each(function(index) {
@@ -151,7 +163,6 @@ function hideInput() {
     }, 2000)
 }
 
-
 function showSubmit() {
     setTimeout(function() {
         setTimeout(() => {
@@ -186,11 +197,10 @@ function showTable(data) {
 }
 
 function showList() {
-    console.log('showList')
-
     $('#input-container').css('display', 'none')
     $('#thanks-container').css('display', 'none')
     $('#list-container').css('display', 'block')
+    $('#lang-container').css('display', 'none')
 
     setTimeout(function() {
         showTag(
@@ -200,12 +210,42 @@ function showList() {
         )
 
         setTimeout(function() {
-            // showTag($('#dashboard'))
-            showTag($('.datatable'))
+            showTag($('#list-processing'))
         }, 1000)
     }, 2000)
 
     makeProcessing()
+}
+
+function showLangTable(data) {
+    var detail = JSON.parse(data[0])
+
+    langTable.clear()
+    langTable.rows.add(detail.data[0].rows)
+    langTable.draw()
+}
+
+function showLang(query) {
+    $('#input-container').css('display', 'none')
+    $('#thanks-container').css('display', 'none')
+    $('#list-container').css('display', 'none')
+    $('#lang-container').css('display', 'block')
+
+    let url = query.replace('url=', '')
+    $('#github-url').text( url )
+    api.lang(url, showLangTable)
+      
+    setTimeout(function() {
+        showTag(
+            $('.step-container')
+                .eq(3)
+                .find('.animate')
+        )
+
+        setTimeout(function() {
+            showTag($('#lang-stats'))
+        }, 1000)
+    }, 2000)
 }
 
 function inputProc() {
@@ -239,50 +279,15 @@ function inputProc() {
     })
 }
 
-var table = null
 function makeProcessing() {
-    table = $('#table-processing').DataTable({
-        data: dataSet,
-        columns: [
-            { title: "No" },
-            { title: "Name" },
-            { title: "Completed" }
-        ]
-      });
-
-    //   var table = $('#table-processing').DataTable();
-
-    var table1 = $('#table-langs').DataTable({
-        data: [],
-        columns: [
-            { title: "Language" },
-            { title: "File Size" },
-            { title: "Line Count" }
-        ],
-        bPaginate: false,
-        info: false,
-        searching: false,
-        order: [[ 2, "desc" ]]
-      });
-
-      $('#table-processing tbody').on('click', 'tr', function () {
+    $('#table-processing tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
 
-        var detail = JSON.parse(data[3])
-        if ( 'data' in detail ) {
-            var langs = detail.data[0].rows
-            console.log(langs)
+        var percent = JSON.parse(data[2])
+        let url = data[1]
 
-            // table1.data = langs
-            table1.clear()
-            table1.rows.add(langs)
-            table1.draw()
-    
-            // var header = [
-            //     'Language', 'Line Count', 'Percent'
-            // ]
-    
-            // dashboard.update(header, langs)
+        if ( percent == 100 ) {
+            window.location.href = "#lang?url=" + url
         }        
       } );
 
@@ -301,14 +306,13 @@ function refresh() {
     }, 1000)
 }
 
-const routeList = 'list'
-
-let currentRoute = ''
-
 let router = new Navigo('/', true, '#')
 router.on({
     list: () => {
         showList()
+    },
+    lang: (param, query) => {
+        showLang(query)
     },
     '': () => {
         showMain()
@@ -331,22 +335,5 @@ $(document).ready(function() {
     readyStringAnimation()
 
     showMain()
-    
     inputProc()
-
-    
-    // var header = [
-    //     'Language', 'Line Count', 'Percent'
-    // ]
-
-    // var tF = [
-    //     ["Markdown", 6628, 216],
-    //     ["JavaScript", 12631, 489],
-    //     ["TypeScript", 3631, 129],
-    //     ["YAML", 94, 7],
-    //     ["JSON", 2864, 104],
-    //     ["HTML", 341, 12]
-    // ]
-    
-    // dashboard.load('#dashboard', header, tF);
 })

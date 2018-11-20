@@ -27,9 +27,16 @@ class AnalysisDB:
         cursor.execute(sql, (percent, langs, url))
         self.db.commit()
 
-    def status(self):
-        sql = """SELECT * FROM analysis"""
+    def list(self):
+        sql = """SELECT id, path, percent FROM analysis"""
         cursor = self.db.cursor()
         cursor.execute(sql)
         res = cursor.fetchall()
+        return res
+
+    def lang(self, url):
+        sql = """SELECT langs FROM analysis WHERE path=%s"""
+        cursor = self.db.cursor()
+        cursor.execute(sql, url)
+        res = cursor.fetchone()
         return res

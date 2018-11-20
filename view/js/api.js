@@ -9,7 +9,6 @@ const api = {
             dataType: 'JSON',
             data: data,
             success: function(data) {
-                console.log(data)
             },
             error: function(xhr, status, error) {
                 console.log(status)
@@ -24,7 +23,23 @@ const api = {
             url: baseUrl + 'list',
             dataType: 'JSON',
             success: function(data) {
-                console.log(data)
+                showTable(data)
+            },
+            error: function(xhr, status, error) {
+                console.log(status)
+                console.log(error)
+            }
+        })
+    },
+
+    lang: function(repo_url, showTable) {
+        let data = { repo_url: repo_url }
+        $.ajax({
+            type: 'GET',
+            url: baseUrl + 'lang',
+            dataType: 'JSON',
+            data: data,
+            success: function(data) {
                 showTable(data)
             },
             error: function(xhr, status, error) {

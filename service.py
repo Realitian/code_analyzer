@@ -43,7 +43,12 @@ def register():
 
 @app.route('/api/list', methods = ['GET', 'POST'])
 def list():
-    return service.status()
+    return service.list()
+
+@app.route('/api/lang', methods = ['GET', 'POST'])
+def lang():
+    repo_url = request.args['repo_url']
+    return service.lang(repo_url)
 
 if __name__ == '__main__':
     # app.run(debug=True)
