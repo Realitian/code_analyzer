@@ -2,8 +2,8 @@ import pymysql
 
 class DB_CONFIG:
     IP_ADDRESS = 'localhost'
-    USER_NAME = "remote"
-    USER_PASSWORD = "remote"
+    USER_NAME = "root"
+    USER_PASSWORD = "rootroot"
     DB_NAME = "code_analysis"
 
 class AnalysisDB:
