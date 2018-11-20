@@ -1,0 +1,11 @@
+CREATE TABLE code_analysis.analysis
+(
+    id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    path varchar(255),
+    percent int(11),
+    langs varchar(1024)
+);
+CREATE UNIQUE INDEX analysis_path_uindex ON code_analysis.analysis (path);
+INSERT INTO code_analysis.analysis (path, percent, langs) VALUES ('https://github.com/bdefore/universal-redux-jwt', 100, '{"data": [{"headers": ["Language", "Size", "Line Count"], "rows": [["Shell", 153, 2], ["Markdown", 1748, 67], ["JavaScript", 20567, 743], ["JSON", 2923, 111]], "title": "Programming Languages Analysis Result"}], "ok": true}');
+INSERT INTO code_analysis.analysis (path, percent, langs) VALUES ('https://github.com/superRaytin/react-monaco-editor', 100, '{"data": [{"headers": ["Language", "Size", "Line Count"], "rows": [["Markdown", 6628, 216], ["JavaScript", 12631, 489], ["TypeScript", 3631, 129], ["YAML", 94, 7], ["JSON", 2864, 104], ["HTML", 341, 12]], "title": "Programming Languages Analysis Result"}], "ok": true}');
+INSERT INTO code_analysis.analysis (path, percent, langs) VALUES ('https://github.com/tensorflow', 100, '{"data": [{"headers": ["Language", "Size", "Line Count"], "rows": [["TypeScript", 4986520, 145364], ["Java", 56092, 1503], ["Scala", 123869, 3038], ["JavaScript", 44699802, 953950], ["Makefile", 22548, 684], ["C", 469715, 12141], ["DOT", 678, 24], ["SCSS", 311344, 8648], ["Shell", 352180, 10793], ["Python", 27988307, 751187], ["JSON", 45220486, 345368], ["HTML", 60248597, 332993], ["Rust", 307630, 8787], ["Protocol Buffer", 293741, 8422], ["XML", 6194207, 177802], ["HTML+Django", 8714, 332], ["C++", 4960156, 135081], ["Objective-C", 2659, 82], ["Batchfile", 7259, 263], ["CSS", 1178860, 35401], ["C2hs Haskell", 5044, 158], ["Markdown", 7020028, 208939], ["Handlebars", 29669, 835], ["reStructuredText", 16830, 764], ["Smarty", 439, 18], ["YAML", 158616, 4346], ["Haskell", 298339, 8164], ["TOML", 2068, 89], ["INI", 19, 1], ["SQL", 2810, 80], ["Go", 217732, 7272]], "title": "Programming Languages Analysis Result"}], "ok": true}');
