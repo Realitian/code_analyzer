@@ -32,7 +32,7 @@
 			</a>
 		</div>
 
-		<div id="input-container" class="step-container">
+		<div id="input-container" class="step-container" style="display: block">
 			<h2 class="title to-split-word animate">Input url of Github user or repository</h2>
 			<h2 class="title sub to-split-word animate">e.g. https://github.com/tensorflow</h2>
 			<input type="text" id="name" value="" placeholder="" aria-label="Your name" spellcheck="false" />
@@ -44,7 +44,7 @@
 			</div>
 		</div>
 
-		<div id="thanks-container" class="step-container">
+		<div id="thanks-container" class="step-container" style="display: none">
 			<h2 class="title to-split-word animate">Bot is analyzing what you entered</h2>
 			<div id="label-thanks" class="label">
 				<div class="container">
@@ -56,7 +56,7 @@
 			</div>
 		</div>
 
-		<div id="list-container" class="step-container">
+		<div id="list-container" class="step-container" style="display: none">
 			<h2 class="title to-split-word animate">List of processing User or Repositories</h2>
 			<div id='list-processing' class="datatable">
 				<table id='table-processing'></table>
@@ -71,12 +71,11 @@
 	</main>
 	<script src="js/libs/mobile-detect/mobile-detect.min.js"></script>
 	<script src="js/libs/jquery/jquery.min.js"></script>
+	<script src="js/libs/jquery/jquery.dataTables.min.js"></script>
 	<script src="js/libs/navigo/navigo.min.js"></script>
-	<script src="js/libs/smooth-scrollbar/smooth-scrollbar.js"></script>
+	<!-- <script src="js/libs/smooth-scrollbar/smooth-scrollbar.js"></script> -->
 	<script src="js/index.js"></script>
 	<!-- <script src="http://d3js.org/d3.v2.js"></script> -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 </body>
 

@@ -80,12 +80,12 @@ function showCursor(tag) {
 
 function showTag(tag) {
     tag.removeClass('hide').addClass('show')
-    // tag.css('display', 'block')
+    tag.css('display', 'block')
 }
 
 function hideTag(tag) {
     tag.removeClass('show').addClass('hide')
-    // tag.css('display', 'none')
+    tag.css('display', 'none')
 }
 
 function showMain() {
@@ -186,6 +186,8 @@ function showTable(data) {
 }
 
 function showList() {
+    console.log('showList')
+
     $('#input-container').css('display', 'none')
     $('#thanks-container').css('display', 'none')
     $('#list-container').css('display', 'block')
@@ -202,6 +204,8 @@ function showList() {
             showTag($('.datatable'))
         }, 1000)
     }, 2000)
+
+    makeProcessing()
 }
 
 function inputProc() {
@@ -330,7 +334,6 @@ $(document).ready(function() {
     
     inputProc()
 
-    makeProcessing()
     
     // var header = [
     //     'Language', 'Line Count', 'Percent'
