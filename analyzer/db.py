@@ -46,8 +46,7 @@ class AnalysisDB:
         cursor = self.db.cursor()
         cursor.execute(sql)
         res = cursor.fetchone()
-        print ('current_app_index', res)
-        return res
+        return res[0]
 
     def increase_app_index(self, app_id_index):
         if app_id_index > 12386:

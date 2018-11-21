@@ -62,9 +62,9 @@ class Service(threading.Thread):
             if worker.idle:
                 url = self.l.get()
                 print ('working on ', url)
-                t = threading.Thread(target=worker.analyze(url))
-                t.start()
-                t.join()
+                worker.set_url(url)
+                worker.start()
+                print ('started on', url)
                 return
 
     def list(self):

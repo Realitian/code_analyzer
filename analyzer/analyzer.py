@@ -22,14 +22,22 @@ import json
 from util import *
 from github import Github
 from db import AnalysisDB
+import threading
 
 REPO_MAX_SIZE = 100 #MB
 
-class Analyzer:
+class Analyzer(threading.Thread):
     def __init__(self, id):
+        threading.Thread.__init__(self)
         self.id = id
         self.dir = ''
         self.idle = True
+
+    def set_url(self, url):
+        self.repo_url = url
+
+    def run(self):
+        self.analyze(self.repo_url)
 
     def analyze(self, repo_url):
         db = AnalysisDB()
