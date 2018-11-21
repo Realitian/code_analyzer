@@ -40,3 +40,31 @@ class AnalysisDB:
         cursor.execute(sql, url)
         res = cursor.fetchone()
         return res
+
+    def current_app_index(self):
+        sql = """SELECT id FROM current_app_id"""
+        cursor = self.db.cursor()
+        cursor.execute(sql)
+        res = cursor.fetchone()
+        print ('current_app_index', res)
+        return res
+
+    def increase_app_index(self, app_id_index):
+        if app_id_index > 12386:
+            app_id_index = 0
+        else:
+            app_id_index += 1
+
+        sql = """UPDATE current_app_id SET id=%s"""
+        cursor = self.db.cursor()
+        cursor.execute(sql, (app_id_index))
+        self.db.commit()
+
+    def app_id(self):
+        sql = """SELECT client_id, client_secret FROM app_ids LIMIT 1 OFFSET %s"""
+        cursor = self.db.cursor()
+        app_id_index = self.current_app_index()
+        cursor.execute(sql, app_id_index)
+        res = cursor.fetchone()
+        self.increase_app_index(app_id_index)
+        return res

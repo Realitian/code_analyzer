@@ -67,7 +67,11 @@ class Analyzer:
                 result = {'ok': False, 'msg': 'invalid url'}
                 self.finished( json.dumps(result) )
 
-            (client_id, client_secret) = ('aa0ceb15a379984e9fa2', '272d79f5b70eee55f6aac52147df5a9e5ae2f8cf')
+            db = AnalysisDB()
+            (client_id, client_secret) = db.app_id()
+            db.closeDB()
+            print (client_id, client_secret)
+
             g = Github(client_id=client_id, client_secret=client_secret)
 
             if repo_name is None:
@@ -204,4 +208,4 @@ class Analyzer:
 
 if __name__ == '__main__':
     l = Analyzer(0)
-    print (l.analyze('https://github.com/bdefore/universal-redux-jwt'))
+    print (l.analyze('https://github.com/google'))
