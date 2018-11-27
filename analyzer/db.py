@@ -16,26 +16,26 @@ class AnalysisDB:
         self.db.close()
 
     def insert_url(self, url):
-        sql = """INSERT INTO analysis (path) VALUES (%s)"""
+        sql = """INSERT INTO reg_status (path) VALUES (%s)"""
         cursor = self.db.cursor()
         cursor.execute(sql, (url))
         self.db.commit()
 
     def update_url(self, url, percent, langs):
-        sql = """UPDATE analysis SET percent=%s, langs=%s WHERE path=%s"""
+        sql = """UPDATE reg_status SET percent=%s, langs=%s WHERE path=%s"""
         cursor = self.db.cursor()
         cursor.execute(sql, (percent, langs, url))
         self.db.commit()
 
     def list(self):
-        sql = """SELECT id, path, percent FROM analysis"""
+        sql = """SELECT id, path, percent FROM reg_status"""
         cursor = self.db.cursor()
         cursor.execute(sql)
         res = cursor.fetchall()
         return res
 
     def lang(self, url):
-        sql = """SELECT langs FROM analysis WHERE path=%s"""
+        sql = """SELECT langs FROM reg_status WHERE path=%s"""
         cursor = self.db.cursor()
         cursor.execute(sql, url)
         res = cursor.fetchone()
