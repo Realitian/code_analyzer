@@ -18,11 +18,7 @@
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 
-import json
-import flask
-import numpy as np
-
-from analyzer.main import Service
+from register.main import Service
 
 app = Flask(__name__, static_url_path = "")
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -52,5 +48,4 @@ def lang():
 
 if __name__ == '__main__':
     # app.run(debug=True)
-    service.start()
     app.run(host='0.0.0.0', port=5000)

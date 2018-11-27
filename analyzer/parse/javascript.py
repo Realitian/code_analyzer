@@ -11,5 +11,10 @@ def node_parse(file):
     for dependency in dependencies:
         print dependency
 
+    devDependencies = data['devDependencies']
+
+    for devDependencie in devDependencies:
+        print devDependencie
+
 if __name__ == '__main__':
-    print (node_parse('/sandbox/turing/repos/code_analyzer/frontend/package.json'))
+    print (node_parse('/sandbox/turing/repos/code_analyzer/view/package.json'))
