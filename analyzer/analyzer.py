@@ -22,162 +22,98 @@ import json
 from util import *
 from github import Github
 from db import AnalysisDB
-import threading
 
 REPO_MAX_SIZE = 100 #MB
 
-class Analyzer(threading.Thread):
-    def __init__(self, id):
-        threading.Thread.__init__(self)
-        self.id = id
+ERR_CANNOT_DOWNLOAD = 1
+ERR_EXCEED_SIZE_LIMIT = 2
+
+class Analyzer:
+    def __init__(self):
         self.dir = ''
-        self.idle = True
+        self.error = 0
 
-    def set_url(self, url):
-        self.repo_url = url
+    def parse_url(self, url, client_id, client_secret):
+        repo_path = (url.split('/'))
+        user_name = None
+        repo_name = None
+        for i in range(0, len(repo_path)):
+            if repo_path[i] == 'github.com':
+                user_name = repo_path[i + 1]
+                if len(repo_path) > i + 2 and repo_path[i + 2] is not '':
+                    repo_name = repo_path[i + 2]
 
-    def run(self):
-        self.analyze(self.repo_url)
+        g = Github(client_id=client_id, client_secret=client_secret)
 
-    def analyze(self, repo_url):
-        db = AnalysisDB()
-        try:
-            db.insert_url(repo_url)
-            db.closeDB()
-        except Exception as ex:
-            db.closeDB()
-            print (ex)
-            result = {'ok': False, 'msg': ex}
-            self.finished(json.dumps(result))
-            return
+        repo_names = []
+        if repo_name is None:
+            gh_user = g.get_user(user_name)
+            for repo in gh_user.get_repos():
+                repo_names.append(repo.name)
+        else:
+            repo_names.append(repo_name)
 
+        return (user_name, repo_names)
+
+    def analyze(self, user_name, repo_name, client_id, client_secret):
         self.idle = False
         self.files = []
         self.lang = None
 
-        result = None
+        g = Github(client_id=client_id, client_secret=client_secret)
 
-        print ('analyzing', repo_url)
+        gh_user = g.get_user(user_name)
+        repo = gh_user.get_repo(repo_name)
+        repo_size_mb = repo.size / 1000
 
-        try:
-            repo_path = (repo_url.split('/'))
-            user_name = None
-            repo_name = None
-            for i in range(0, len(repo_path)):
-                if repo_path[i] == 'github.com':
-                    user_name = repo_path[i+1]
-                    if len(repo_path) > i+2 and repo_path[i+2] is not '':
-                        repo_name = repo_path[i+2]
+        url = 'https://github.com/' + user_name + '/' + repo_name
+        if repo_size_mb < REPO_MAX_SIZE:
+            self._analyze_repo(url, repo.id)
+        else:
+            self.error = ERR_EXCEED_SIZE_LIMIT
 
-            print (user_name, repo_name)
+        statics = {}
+        for file in self.files:
+            if not file[1]:
+                if file[4] in statics:
+                    size = statics[file[4]][0]
+                    line_count = statics[file[4]][1]
+                    size += file[2]
+                    line_count += file[3]
+                    statics[file[4]] = (size, line_count)
+                else:
+                    statics[file[4]] = (file[2], file[3])
 
-            if user_name is None and repo_name is None:
-                result = {'ok': False, 'msg': 'invalid url'}
-                self.finished( json.dumps(result) )
+        sorted(statics.iteritems())
 
-            db = AnalysisDB()
-            (client_id, client_secret) = db.app_id()
-            db.closeDB()
-            print (client_id, client_secret)
+        result = []
+        for key in statics:
+            if not key is 'None':
+                result.append([key, statics[key][0], statics[key][1]])
 
-            g = Github(client_id=client_id, client_secret=client_secret)
+        return (self.error, result)
 
-            if repo_name is None:
-                gh_user = g.get_user(user_name)
-
-                total = 0
-                for repo in gh_user.get_repos():
-                    total += 1
-
-                current = 0
-                for repo in gh_user.get_repos():
-                    repo_name = repo.name
-                    repo_size_mb = repo.size/1000
-                    print ('size(MB)', repo_name, repo_size_mb)
-                    url = 'https://github.com/' + user_name + '/' + repo_name
-                    if repo_size_mb < REPO_MAX_SIZE:
-                        self.analyze_repo(url)
-
-                    db = AnalysisDB()
-                    db.update_url(repo_url, 100*current/total, '')
-                    print ('update', repo_url, 100*current/total)
-                    db.closeDB()
-
-                    current += 1
-            else:
-                url = 'https://github.com/' + user_name + '/' + repo_name
-                gh_user = g.get_user(user_name)
-                repo = gh_user.get_repo(repo_name)
-                repo_size_mb = repo.size/1000
-                print ('size(MB)', repo_name, repo_size_mb)
-                if repo_size_mb < REPO_MAX_SIZE:
-                    self.analyze_repo(url)
-
-            statics = {}
-            for file in self.files:
-                if not file[1]:
-                    if file[4] in statics:
-                        size = statics[file[4]][0]
-                        line_count = statics[file[4]][1]
-                        size += file[2]
-                        line_count += file[3]
-                        statics[file[4]] = (size, line_count)
-                    else:
-                        statics[file[4]] = (file[2], file[3])
-
-            print (statics)
-            sorted(statics.iteritems())
-            print (statics)
-
-            headers = ['Language', 'Size', 'Line Count']
-
-            rows = []
-            for key in statics:
-                if not key is 'None':
-                    rows.append([key, statics[key][0], statics[key][1]])
-
-            data = [
-                {
-                    'title': 'Programming Languages Analysis Result',
-                    'headers': headers,
-                    'rows': rows
-                }]
-
-            result = {'ok': True, 'data': data}
-            db = AnalysisDB()
-            db.update_url(repo_url, 100, json.dumps(result))
-            db.closeDB()
-
-        except Exception as ex:
-            result = {'ok': False, 'msg': ex}
-
-        self.finished( json.dumps(result) )
-
-    def finished(self, result):
-        self.result = result
-        self.idle = True
-
-    def analyze_repo(self, repo_url):
+    def _analyze_repo(self, repo_url, id):
         default_branch = 'master'
         url = repo_url + '/archive/' + default_branch + '.zip'
 
-        output_file = str(self.id)+'.zip'
+        output_file = str(id)+'.zip'
+        output_dir = str(id)
 
         command = subprocess.Popen(['wget', '--output-document', output_file, url], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = command.communicate()
         if err.find('200 OK') < 0:
-            result = {'ok': False, 'msg': 'could not download repository'}
+            self.error = ERR_CANNOT_DOWNLOAD
         else:
-            unzip_to(output_file, 'master')
-            unziped_folder_name = 'master'
+            unzip_to(output_file, output_dir)
 
-            self.dir = unziped_folder_name
-            self.listdir(self.dir)
+            self.dir = output_dir
+            self._listdir(self.dir)
 
-            rmdir(unziped_folder_name)
+            rmdir(output_dir)
             rmfile(output_file)
 
-    def listdir(self, d):
+    def _listdir(self, d):
         if not os.path.isdir(d):
             try:
                 file = os.path.relpath(d, self.dir)
@@ -207,13 +143,4 @@ class Analyzer(threading.Thread):
                 print (d, ex)
         else:
             for item in os.listdir(d):
-                self.listdir((d + '/' + item) if d != '/' else '/' + item)
-
-    def do(self):
-        self.listdir(self.dir)
-        print (self.files)
-        return len(self.files)
-
-if __name__ == '__main__':
-    l = Analyzer(0)
-    print (l.analyze('https://github.com/google'))
+                self._listdir((d + '/' + item) if d != '/' else '/' + item)

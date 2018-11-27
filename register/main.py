@@ -17,35 +17,39 @@
 import json
 from register.db import RegisterDB
 
-QUEUE_MAXSIZE = 2
-WORKERS_MAXCOUNT = 10
-
 class Service:
     def __init__(self):
-        self.db = RegisterDB()
+        pass
 
     def register(self, url):
+        db = RegisterDB()
         if self.is_invalid(url):
             message = url + 'is invalid'
             result = {'ok': False, 'msg': message}
             return json.dumps(result)
 
         try:
-            self.db.register(url)
+            db.register(url)
         except Exception as ex:
             message = 'request of ' + url + 'had been registered'
             result = {'ok': True, 'msg': message}
+
+        db.closeDB()
 
         message = 'request of ' + url + 'had been registered'
         result = {'ok': True, 'msg': message}
         return json.dumps(result)
 
     def list(self):
-        result = self.db.list()
+        db = RegisterDB()
+        result = db.list()
+        db.closeDB()
         return json.dumps(result)
 
     def lang(self, url):
-        result = self.db.lang(url)
+        db = RegisterDB()
+        result = db.lang(url)
+        db.closeDB()
         return json.dumps(result)
 
     def is_invalid(self, url):

@@ -41,29 +41,16 @@ class RegisterDB:
         cursor.execute(sql, reg_id)
         res = cursor.fetchall()
 
-        statics = {}
+        headers = ['Language', 'Size', 'Line Count']
+
+        rows = []
         for file in res:
             lang = file[0]
             size = file[1]
             line_count = file[2]
 
-            if lang in statics:
-                sum_size = statics[lang][0]
-                sum_line_count = statics[lang][1]
-                sum_size += size
-                line_count += line_count
-                statics[lang] = (sum_size, sum_line_count)
-            else:
-                statics[lang] = (size, line_count)
-
-        sorted(statics.iteritems())
-
-        headers = ['Language', 'Size', 'Line Count']
-
-        rows = []
-        for key in statics:
-            if not key is 'None':
-                rows.append([key, statics[key][0], statics[key][1]])
+            if lang is not 'None':
+                rows.append([lang, size, line_count])
 
         data = [
             {

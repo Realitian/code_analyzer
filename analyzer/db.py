@@ -15,30 +15,51 @@ class AnalysisDB:
         cursor.close()
         self.db.close()
 
-    def insert_url(self, url):
-        sql = """INSERT INTO reg_status (path) VALUES (%s)"""
+    def add_repo(self, reg_id, user_name, repo_name):
+        try:
+            sql = """INSERT INTO repos (reg_id, user_name, repo_name) VALUES (%s, %s, %s)"""
+            cursor = self.db.cursor()
+            cursor.execute(sql, (reg_id, user_name, repo_name))
+            self.db.commit()
+        except:
+            pass
+
+        sql = """SELECT id FROM repos WHERE user_name=%s and repo_name=%s"""
         cursor = self.db.cursor()
-        cursor.execute(sql, (url))
+        cursor.execute(sql, (user_name, repo_name))
+        res = cursor.fetchone()
+        repo_id = res[0]
+
+        try:
+            sql = """INSERT INTO repo_packages (repo_id) VALUES (%s)"""
+            cursor = self.db.cursor()
+            cursor.execute(sql, (repo_id))
+            self.db.commit()
+        except:
+            pass
+
+        return repo_id
+
+    def add_repo_lang(self, repo_id, lang, size, line_count):
+        sql = """INSERT INTO repo_langs (repo_id, lang, size, line_count) VALUES (%s, %s, %s, %s)"""
+        cursor = self.db.cursor()
+        cursor.execute(sql, (repo_id, lang, size, line_count))
         self.db.commit()
 
-    def update_url(self, url, percent, langs):
-        sql = """UPDATE reg_status SET percent=%s, langs=%s WHERE path=%s"""
+    def update_repo_package_javascript(self, repo_id, javascript):
+        pass
+
+    def update_percent(self, id, percent, error):
+        sql = """UPDATE registries SET percent=%s, err_code=%s WHERE id=%s"""
         cursor = self.db.cursor()
-        cursor.execute(sql, (percent, langs, url))
+        cursor.execute(sql, (percent, error, id))
         self.db.commit()
 
-    def list(self):
-        sql = """SELECT id, path, percent FROM reg_status"""
+    def get_todo_list(self):
+        sql = """SELECT id, path FROM registries WHERE percent is NULL"""
         cursor = self.db.cursor()
         cursor.execute(sql)
         res = cursor.fetchall()
-        return res
-
-    def lang(self, url):
-        sql = """SELECT langs FROM reg_status WHERE path=%s"""
-        cursor = self.db.cursor()
-        cursor.execute(sql, url)
-        res = cursor.fetchone()
         return res
 
     def current_app_index(self):

@@ -218,10 +218,10 @@ function showList() {
 }
 
 function showLangTable(data) {
-    var detail = JSON.parse(data[0])
+    var detail = data.data[0]
 
     langTable.clear()
-    langTable.rows.add(detail.data[0].rows)
+    langTable.rows.add(detail.rows)
     langTable.draw()
 }
 
