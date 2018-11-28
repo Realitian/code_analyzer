@@ -15,11 +15,11 @@ class AnalysisDB:
         cursor.close()
         self.db.close()
 
-    def add_repo(self, reg_id, user_name, repo_name):
+    def add_repo(self, reg_id, user_name, repo_name, repo_git_id):
         try:
-            sql = """INSERT INTO repos (reg_id, user_name, repo_name) VALUES (%s, %s, %s)"""
+            sql = """INSERT INTO repos (reg_id, user_name, repo_name, git_id) VALUES (%s, %s, %s, %s)"""
             cursor = self.db.cursor()
-            cursor.execute(sql, (reg_id, user_name, repo_name))
+            cursor.execute(sql, (reg_id, user_name, repo_name, repo_git_id))
             self.db.commit()
         except:
             pass
@@ -40,19 +40,28 @@ class AnalysisDB:
 
         return repo_id
 
-    def add_repo_lang(self, repo_id, lang, size, line_count):
-        sql = """INSERT INTO repo_langs (repo_id, lang, size, line_count) VALUES (%s, %s, %s, %s)"""
+    def set_repo_err(self, repo_id, err_code):
+        sql = """UPDATE repos SET err_code=%s WHERE id=%s"""
         cursor = self.db.cursor()
-        cursor.execute(sql, (repo_id, lang, size, line_count))
+        cursor.execute(sql, (err_code, repo_id))
         self.db.commit()
+
+    def add_repo_lang(self, repo_id, lang, size, line_count):
+        try:
+            sql = """INSERT INTO repo_langs (repo_id, lang, size, line_count) VALUES (%s, %s, %s, %s)"""
+            cursor = self.db.cursor()
+            cursor.execute(sql, (repo_id, lang, size, line_count))
+            self.db.commit()
+        except:
+            pass
 
     def update_repo_package_javascript(self, repo_id, javascript):
         pass
 
-    def update_percent(self, id, percent, error):
-        sql = """UPDATE registries SET percent=%s, err_code=%s WHERE id=%s"""
+    def update_percent(self, id, percent):
+        sql = """UPDATE registries SET percent=%s WHERE id=%s"""
         cursor = self.db.cursor()
-        cursor.execute(sql, (percent, error, id))
+        cursor.execute(sql, (percent, id))
         self.db.commit()
 
     def get_todo_list(self):

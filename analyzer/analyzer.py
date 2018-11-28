@@ -22,6 +22,8 @@ import json
 from util import *
 from github import Github
 from db import AnalysisDB
+import os
+from os.path import expanduser
 
 REPO_MAX_SIZE = 100 #MB
 
@@ -32,6 +34,12 @@ class Analyzer:
     def __init__(self):
         self.dir = ''
         self.error = 0
+        home = expanduser("~")
+        self.repo_dir_root = home + '/git_repo/'
+        try:
+            os.mkdir(self.repo_dir_root)
+        except Exception as ex:
+            pass
 
     def parse_url(self, url, client_id, client_secret):
         repo_path = (url.split('/'))
@@ -45,15 +53,17 @@ class Analyzer:
 
         g = Github(client_id=client_id, client_secret=client_secret)
 
-        repo_names = []
-        if repo_name is None:
-            gh_user = g.get_user(user_name)
-            for repo in gh_user.get_repos():
-                repo_names.append(repo.name)
-        else:
-            repo_names.append(repo_name)
+        repos = []
+        gh_user = g.get_user(user_name)
 
-        return (user_name, repo_names)
+        if repo_name is None:
+            for repo in gh_user.get_repos():
+                repos.append((repo.name, repo.id))
+        else:
+            repo = gh_user.get_repo(repo_name)
+            repos.append((repo_name, repo.id))
+
+        return (user_name, repos)
 
     def analyze(self, user_name, repo_name, client_id, client_secret):
         self.idle = False
@@ -84,8 +94,6 @@ class Analyzer:
                 else:
                     statics[file[4]] = (file[2], file[3])
 
-        sorted(statics.iteritems())
-
         result = []
         for key in statics:
             if not key is 'None':
@@ -97,8 +105,8 @@ class Analyzer:
         default_branch = 'master'
         url = repo_url + '/archive/' + default_branch + '.zip'
 
-        output_file = str(id)+'.zip'
-        output_dir = str(id)
+        output_file = self.repo_dir_root + str(id)+'.zip'
+        output_dir = self.repo_dir_root + str(id)
 
         command = subprocess.Popen(['wget', '--output-document', output_file, url], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = command.communicate()
@@ -110,7 +118,7 @@ class Analyzer:
             self.dir = output_dir
             self._listdir(self.dir)
 
-            rmdir(output_dir)
+            # rmdir(output_dir)
             rmfile(output_file)
 
     def _listdir(self, d):

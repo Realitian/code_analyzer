@@ -17,3 +17,6 @@ def rmfile(file):
 
 def download(url):
     subprocess.call(['wget', url])
+
+def mkdir(dir):
+    subprocess.call(['mkdir', dir])

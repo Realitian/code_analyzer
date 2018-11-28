@@ -15,19 +15,20 @@ class Daemon:
             path = job[1]
 
             (client_id, client_secret) = db.app_id()
-            (user_name, repo_names) = analyzer.parse_url(path, client_id, client_secret)
+            (user_name, repos) = analyzer.parse_url(path, client_id, client_secret)
 
             percent = 0
-            total_repo_count = len(repo_names)
+            total_repo_count = len(repos)
             current_repo_index = 0
 
-            for repo_name in repo_names:
-                repo_id = db.add_repo(id, user_name, repo_name)
+            for (repo_name, repo_git_id) in repos:
+                repo_id = db.add_repo(id, user_name, repo_name, repo_git_id)
                 (error, result) = analyzer.analyze(user_name, repo_name, client_id, client_secret)
 
                 current_repo_index+=1
                 percent = 100*current_repo_index/total_repo_count
-                db.update_percent(id, percent, error)
+                db.update_percent(id, percent)
+                db.set_repo_err(repo_id, error)
 
                 for (lang, size, line_count) in result:
                     db.add_repo_lang(repo_id, lang, size, line_count)

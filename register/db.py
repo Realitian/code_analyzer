@@ -43,11 +43,23 @@ class RegisterDB:
 
         headers = ['Language', 'Size', 'Line Count']
 
-        rows = []
+        statics = {}
         for file in res:
             lang = file[0]
             size = file[1]
             line_count = file[2]
+
+            if lang in statics:
+                size += statics[lang][0]
+                line_count += statics[lang][1]
+                statics[lang] = (size, line_count)
+            else:
+                statics[lang] = (size, line_count)
+
+        rows = []
+        for lang in statics:
+            size = statics[lang][0]
+            line_count = statics[lang][1]
 
             if lang is not 'None':
                 rows.append([lang, size, line_count])
