@@ -295,6 +295,10 @@ function makeProcessing() {
 }
 
 function refresh() {
+    let isList = window.location.href.includes('#list')
+    if (!isList) {
+        return
+    }
     api.list(showTable)
 
     table.clear()
