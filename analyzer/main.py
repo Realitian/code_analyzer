@@ -5,6 +5,10 @@ class Daemon:
     def __init__(self):
         pass
 
+    def run(self):
+        while True:
+            self.start()
+
     def start(self):
         db = AnalysisDB()
         analyzer = Analyzer()
@@ -37,4 +41,4 @@ class Daemon:
 
 if __name__ == '__main__':
     d = Daemon()
-    d.start()
+    d.run()
