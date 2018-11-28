@@ -24,6 +24,7 @@ from github import Github
 from db import AnalysisDB
 import os
 from os.path import expanduser
+import urlparse
 
 REPO_MAX_SIZE = 100 #MB
 
@@ -42,14 +43,15 @@ class Analyzer:
             pass
 
     def parse_url(self, url, client_id, client_secret):
-        repo_path = (url.split('/'))
+        re = urlparse.urlparse(url)
+        repo_path = (re.path.split('/'))
         user_name = None
         repo_name = None
-        for i in range(0, len(repo_path)):
-            if repo_path[i] == 'github.com':
-                user_name = repo_path[i + 1]
-                if len(repo_path) > i + 2 and repo_path[i + 2] is not '':
-                    repo_name = repo_path[i + 2]
+        if len(repo_path) > 2:
+            user_name = repo_path[1]
+            repo_name = repo_path[2]
+            if repo_name == '':
+                repo_name = None
 
         g = Github(client_id=client_id, client_secret=client_secret)
 
