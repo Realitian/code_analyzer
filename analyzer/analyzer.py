@@ -47,8 +47,9 @@ class Analyzer:
         repo_path = (re.path.split('/'))
         user_name = None
         repo_name = None
-        if len(repo_path) > 2:
+        if len(repo_path) > 1:
             user_name = repo_path[1]
+        if len(repo_path) > 2:
             repo_name = repo_path[2]
             if repo_name == '':
                 repo_name = None
