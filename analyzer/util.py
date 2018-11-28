@@ -20,3 +20,8 @@ def download(url):
 
 def mkdir(dir):
     subprocess.call(['mkdir', dir])
+
+def normalize_url(url):
+    if url.endswith('/'):
+        return url[:-1]
+    return url

@@ -16,12 +16,15 @@
 """
 import json
 from register.db import RegisterDB
+from analyzer.util import normalize_url
 
 class Service:
     def __init__(self):
         pass
 
     def register(self, url):
+        url = normalize_url(url)
+
         db = RegisterDB()
         if self.is_invalid(url):
             message = url + 'is invalid'
@@ -47,6 +50,8 @@ class Service:
         return json.dumps(result)
 
     def lang(self, url):
+        url = normalize_url(url)
+
         db = RegisterDB()
         result = db.lang(url)
         db.closeDB()
