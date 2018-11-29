@@ -1,5 +1,6 @@
 from db import AnalysisDB
 from analyzer import Analyzer
+import time
 
 class Daemon:
     def __init__(self):
@@ -7,7 +8,11 @@ class Daemon:
 
     def run(self):
         while True:
-            self.start()
+            try:
+                self.start()
+            except Exception as ex:
+                print (ex)
+                time.sleep(60)
 
     def start(self):
         db = AnalysisDB()
