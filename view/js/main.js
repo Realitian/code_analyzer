@@ -223,6 +223,13 @@ function showLangTable(data) {
     langTable.clear()
     langTable.rows.add(detail.rows)
     langTable.draw()
+
+    console.log( detail.rows.length == 0 )
+    if( detail.rows.length == 0 ) {
+        showTag($('#empty-reason'))
+    } else {
+        hideTag($('#empty-reason'))
+    }
 }
 
 function showLang(query) {
@@ -231,21 +238,19 @@ function showLang(query) {
     $('#list-container').css('display', 'none')
     $('#lang-container').css('display', 'block')
 
+    showTag(
+        $('.step-container')
+            .eq(3)
+            .find('.animate')
+    )
+
     let url = query.replace('url=', '')
     $('#github-url').text( url )
     api.lang(url, showLangTable)
-      
+    
     setTimeout(function() {
-        showTag(
-            $('.step-container')
-                .eq(3)
-                .find('.animate')
-        )
-
-        setTimeout(function() {
-            showTag($('#lang-stats'))
-        }, 1000)
-    }, 2000)
+        showTag($('#lang-stats'))
+    }, 1000)
 }
 
 function inputProc() {
