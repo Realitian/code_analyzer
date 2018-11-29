@@ -20,62 +20,82 @@ class AnalysisDB:
         cursor.close()
         self.db.close()
 
-    def add_repo(self, reg_id, user_name, repo_name, repo_git_id):
+
+    """
+    related to repo entries
+    """
+    def add_repo(self, url_id, repo_git_id):
         try:
-            sql = """INSERT INTO repos (reg_id, user_name, repo_name, git_id) VALUES (%s, %s, %s, %s)"""
+            sql = """INSERT INTO registerd_repos (url_id, git_id) VALUES (%s, %s)"""
             cursor = self.db.cursor()
-            cursor.execute(sql, (reg_id, user_name, repo_name, repo_git_id))
+            cursor.execute(sql, (url_id, repo_git_id))
             self.db.commit()
         except:
             pass
 
-        sql = """SELECT id FROM repos WHERE user_name=%s and repo_name=%s"""
-        cursor = self.db.cursor()
-        cursor.execute(sql, (user_name, repo_name))
-        res = cursor.fetchone()
-        repo_id = res[0]
+        exist = False
 
         try:
-            sql = """INSERT INTO repo_packages (repo_id) VALUES (%s)"""
+            sql = """INSERT INTO repo_status (repo_git_id) VALUES (%s)"""
             cursor = self.db.cursor()
-            cursor.execute(sql, (repo_id))
+            cursor.execute(sql, (repo_git_id))
+            self.db.commit()
+        except:
+            exist = True
+
+        try:
+            sql = """INSERT INTO repo_packages (repo_git_id) VALUES (%s)"""
+            cursor = self.db.cursor()
+            cursor.execute(sql, (repo_git_id))
             self.db.commit()
         except:
             pass
 
-        return repo_id
+        return exist
 
-    def set_repo_err(self, repo_id, err_code):
-        sql = """UPDATE repos SET err_code=%s WHERE id=%s"""
+    def set_repo_status(self, repo_git_id, status_code):
+        sql = """UPDATE repo_status SET status_code=%s WHERE repo_git_id=%s"""
         cursor = self.db.cursor()
-        cursor.execute(sql, (err_code, repo_id))
+        cursor.execute(sql, (status_code, repo_git_id))
         self.db.commit()
 
-    def add_repo_lang(self, repo_id, lang, size, line_count):
+    def add_repo_lang(self, repo_git_id, lang, size, line_count):
         try:
-            sql = """INSERT INTO repo_langs (repo_id, lang, size, line_count) VALUES (%s, %s, %s, %s)"""
+            sql = """INSERT INTO repo_langs (repo_git_id, lang, size, line_count) VALUES (%s, %s, %s, %s)"""
             cursor = self.db.cursor()
-            cursor.execute(sql, (repo_id, lang, size, line_count))
+            cursor.execute(sql, (repo_git_id, lang, size, line_count))
             self.db.commit()
         except:
             pass
 
-    def update_repo_package_javascript(self, repo_id, javascript):
+
+    """
+    related to package entries
+    """
+    def update_repo_package_javascript(self, repo_git_id, javascript):
         pass
 
+
+    """
+    related to url entries
+    """
     def update_percent(self, id, percent):
-        sql = """UPDATE registries SET percent=%s WHERE id=%s"""
+        sql = """UPDATE registerd_urls SET percent=%s WHERE id=%s"""
         cursor = self.db.cursor()
         cursor.execute(sql, (percent, id))
         self.db.commit()
 
     def get_todo_list(self):
-        sql = """SELECT id, path FROM registries WHERE percent is NULL"""
+        sql = """SELECT id, url FROM registerd_urls WHERE percent is NULL"""
         cursor = self.db.cursor()
         cursor.execute(sql)
         res = cursor.fetchall()
         return res
 
+
+    """
+    related to github app id
+    """
     def current_app_index(self):
         sql = """SELECT id FROM current_app_id"""
         cursor = self.db.cursor()
@@ -83,7 +103,7 @@ class AnalysisDB:
         res = cursor.fetchone()
         return res[0]
 
-    def increase_app_index(self, app_id_index):
+    def next_app_index(self, app_id_index):
         if app_id_index > 12386:
             app_id_index = 0
         else:
@@ -100,5 +120,5 @@ class AnalysisDB:
         app_id_index = self.current_app_index()
         cursor.execute(sql, app_id_index)
         res = cursor.fetchone()
-        self.increase_app_index(app_id_index)
+        self.next_app_index(app_id_index)
         return res

@@ -22,28 +22,22 @@ class RegisterDB:
         self.db.close()
 
     def register(self, url):
-        sql = """INSERT INTO registries (path, at) VALUES (%s, %s)"""
+        sql = """INSERT INTO registerd_urls (url, at) VALUES (%s, %s)"""
         cursor = self.db.cursor()
         cursor.execute(sql, (url, datetime.now()))
         self.db.commit()
 
     def list(self):
-        sql = """SELECT id, path, percent FROM registries"""
+        sql = """SELECT id, url, percent FROM registerd_urls"""
         cursor = self.db.cursor()
         cursor.execute(sql)
         res = cursor.fetchall()
         return res
 
     def lang(self, url):
-        sql = """SELECT id FROM registries WHERE path=%s"""
+        sql = """SELECT lang, size, line_count from repo_langs WHERE repo_git_id in (SELECT git_id from registerd_repos WHERE url_id in (SELECT id FROM registerd_urls WHERE url=%s))"""
         cursor = self.db.cursor()
         cursor.execute(sql, url)
-        res = cursor.fetchone()
-        reg_id = res[0]
-
-        sql = """SELECT lang, size, line_count from repo_langs WHERE repo_id in (SELECT id from repos WHERE reg_id=%s)"""
-        cursor = self.db.cursor()
-        cursor.execute(sql, reg_id)
         res = cursor.fetchall()
 
         headers = ['Language', 'Size', 'Line Count']

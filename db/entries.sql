@@ -1,20 +1,4 @@
-CREATE TABLE code_analysis.analysis
-(
-    id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    path varchar(255),
-    percent int(11),
-    langs varchar(1024)
-);
-CREATE UNIQUE INDEX analysis_path_uindex ON code_analysis.analysis (path);
-INSERT INTO code_analysis.analysis (path, percent, langs) VALUES ('https://github.com/bdefore/universal-redux-jwt', 100, '{"data": [{"headers": ["Language", "Size", "Line Count"], "rows": [["Shell", 153, 2], ["Markdown", 1748, 67], ["JavaScript", 20567, 743], ["JSON", 2923, 111]], "title": "Programming Languages Analysis Result"}], "ok": true}');
-INSERT INTO code_analysis.analysis (path, percent, langs) VALUES ('https://github.com/superRaytin/react-monaco-editor', 100, '{"data": [{"headers": ["Language", "Size", "Line Count"], "rows": [["Markdown", 6628, 216], ["JavaScript", 12631, 489], ["TypeScript", 3631, 129], ["YAML", 94, 7], ["JSON", 2864, 104], ["HTML", 341, 12]], "title": "Programming Languages Analysis Result"}], "ok": true}');
-INSERT INTO code_analysis.analysis (path, percent, langs) VALUES ('https://github.com/tensorflow', 100, '{"data": [{"headers": ["Language", "Size", "Line Count"], "rows": [["TypeScript", 4986520, 145364], ["Java", 56092, 1503], ["Scala", 123869, 3038], ["JavaScript", 44699802, 953950], ["Makefile", 22548, 684], ["C", 469715, 12141], ["DOT", 678, 24], ["SCSS", 311344, 8648], ["Shell", 352180, 10793], ["Python", 27988307, 751187], ["JSON", 45220486, 345368], ["HTML", 60248597, 332993], ["Rust", 307630, 8787], ["Protocol Buffer", 293741, 8422], ["XML", 6194207, 177802], ["HTML+Django", 8714, 332], ["C++", 4960156, 135081], ["Objective-C", 2659, 82], ["Batchfile", 7259, 263], ["CSS", 1178860, 35401], ["C2hs Haskell", 5044, 158], ["Markdown", 7020028, 208939], ["Handlebars", 29669, 835], ["reStructuredText", 16830, 764], ["Smarty", 439, 18], ["YAML", 158616, 4346], ["Haskell", 298339, 8164], ["TOML", 2068, 89], ["INI", 19, 1], ["SQL", 2810, 80], ["Go", 217732, 7272]], "title": "Programming Languages Analysis Result"}], "ok": true}');
-CREATE TABLE code_analysis.app_ids
-(
-    `index` int(11),
-    client_id tinytext,
-    client_secret tinytext
-);
+INSERT INTO code_analysis.current_app_id (id) VALUES (26);
 INSERT INTO code_analysis.app_ids (`index`, client_id, client_secret) VALUES (1, '573511d79f4af51c45ed', 'a5f061a6082157239d465c6d57f6c148440922d0');
 INSERT INTO code_analysis.app_ids (`index`, client_id, client_secret) VALUES (2, 'e54d415f4b75d9dafb13', '35f4a2f4373f95ef411deb7b3094c33c8a6918ba');
 INSERT INTO code_analysis.app_ids (`index`, client_id, client_secret) VALUES (3, 'df19663036d27e9e08f8', '7ad4ecb319cf194f135e0e2aa38c007981cd9314');
@@ -12402,8 +12386,3 @@ INSERT INTO code_analysis.app_ids (`index`, client_id, client_secret) VALUES (12
 INSERT INTO code_analysis.app_ids (`index`, client_id, client_secret) VALUES (12385, '12545529df5ce7de3dd1', 'aa21418661670aaf541d6eb5faa7d235bd19c369');
 INSERT INTO code_analysis.app_ids (`index`, client_id, client_secret) VALUES (12386, 'a31ea4303c094a8a50e2', '08d5a2b790fa9690e3326beb7f8b1f53a46e9219');
 INSERT INTO code_analysis.app_ids (`index`, client_id, client_secret) VALUES (12387, '7a25bfcd75205e9aaa5d', '1ee3b52bf3262fe7c266961b1d3c5b9ed3507d6c');
-CREATE TABLE code_analysis.current_app_id
-(
-    id int(11)
-);
-INSERT INTO code_analysis.current_app_id (id) VALUES (0);

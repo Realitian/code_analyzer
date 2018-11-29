@@ -15,27 +15,28 @@ class Daemon:
 
         jobs = db.get_todo_list()
         for job in jobs:
-            id = job[0]
-            path = job[1]
+            url_id = job[0]
+            url = job[1]
 
             (client_id, client_secret) = db.app_id()
-            (user_name, repos) = analyzer.parse_url(path, client_id, client_secret)
+            (user_name, repos) = analyzer.parse_url(url, client_id, client_secret)
 
             percent = 0
             total_repo_count = len(repos)
             current_repo_index = 0
 
             for (repo_name, repo_git_id) in repos:
-                repo_id = db.add_repo(id, user_name, repo_name, repo_git_id)
-                (error, result) = analyzer.analyze(user_name, repo_name, client_id, client_secret)
+                exist = db.add_repo(url_id, repo_git_id)
+                if not exist:
+                    (status_code, result) = analyzer.analyze(user_name, repo_name, client_id, client_secret)
+                    db.set_repo_status(repo_git_id, status_code)
+
+                    for (lang, size, line_count) in result:
+                        db.add_repo_lang(repo_git_id, lang, size, line_count)
 
                 current_repo_index+=1
                 percent = 100*current_repo_index/total_repo_count
-                db.update_percent(id, percent)
-                db.set_repo_err(repo_id, error)
-
-                for (lang, size, line_count) in result:
-                    db.add_repo_lang(repo_id, lang, size, line_count)
+                db.update_percent(url_id, percent)
 
         db.closeDB()
 

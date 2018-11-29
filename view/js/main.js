@@ -286,9 +286,9 @@ function makeProcessing() {
         var percent = JSON.parse(data[2])
         let url = data[1]
 
-        // if ( percent == 100 ) {
+        if ( percent > 0 ) {
             window.location.href = "#lang?url=" + url
-        // }        
+        }
       } );
 
       refresh()
