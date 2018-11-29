@@ -3,16 +3,6 @@ import api from './api';
 
 let isIOS = false
 let repo_url = ''
-var dataSet = []
-
-var table = $('#table-processing').DataTable({
-    // data: dataSet,
-    columns: [
-        { title: "No" },
-        { title: "Name" },
-        { title: "Completed" }
-    ]
-});
 
 var langTable = $('#table-langs').DataTable({
     columns: [
@@ -192,10 +182,6 @@ function hideSubmit() {
     hideTag($('#company'))
 }
 
-function showTable(data) {
-    dataSet = data
-}
-
 function showList() {
     $('#input-container').css('display', 'none')
     $('#thanks-container').css('display', 'none')
@@ -211,10 +197,41 @@ function showList() {
 
         setTimeout(function() {
             showTag($('#list-processing'))
+            showListTable()
         }, 1000)
     }, 2000)
+}
 
-    makeProcessing()
+function showListTable() {
+    let url = api.listUrl()
+
+    var table = $('#table-processing').DataTable({
+        columns: [
+            { title: "No", data: 'id' },
+            { title: "Name", data: 'url' },
+            { title: "Completed", data: 'percent' }
+        ],
+        ajax: url
+    });
+
+    setInterval(function(){
+        let isList = window.location.href.includes('#list')
+        if (isList) {
+            // console.log('table ajax reloading', table)
+            table.ajax.reload(null, false);
+        }
+    }, 5000);
+    
+    $('#table-processing tbody').on('click', 'tr', function () {
+        var data = table.row( this ).data();
+
+        var percent = JSON.parse(data[2])
+        let url = data[1]
+
+        if ( percent > 0 ) {
+            window.location.href = "#lang?url=" + url
+        }
+    } );
 }
 
 function showLangTable(data) {
@@ -282,37 +299,6 @@ function inputProc() {
         hideInput()
         showSubmit()
     })
-}
-
-function makeProcessing() {
-    $('#table-processing tbody').on('click', 'tr', function () {
-        var data = table.row( this ).data();
-
-        var percent = JSON.parse(data[2])
-        let url = data[1]
-
-        if ( percent > 0 ) {
-            window.location.href = "#lang?url=" + url
-        }
-      } );
-
-      refresh()
-}
-
-function refresh() {
-    let isList = window.location.href.includes('#list')
-    if (!isList) {
-        return
-    }
-    api.list(showTable)
-
-    table.clear()
-    table.rows.add(dataSet)
-    table.draw()
-
-    setTimeout(function() {
-        refresh()
-    }, 1000)
 }
 
 let router = new Navigo('/', true, '#')

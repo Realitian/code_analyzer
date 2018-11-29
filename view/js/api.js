@@ -32,6 +32,10 @@ const api = {
         })
     },
 
+    listUrl: function() {
+        return baseUrl + 'list'
+    },
+
     lang: function(repo_url, showTable) {
         let data = { repo_url: repo_url }
         $.ajax({
