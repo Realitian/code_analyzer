@@ -45,6 +45,9 @@ class Daemon:
 
         db.closeDB()
 
+        if len(jobs) == 0:
+            time.sleep(10)
+
 if __name__ == '__main__':
     d = Daemon()
     d.run()
