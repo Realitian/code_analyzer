@@ -32,7 +32,16 @@ class RegisterDB:
         cursor = self.db.cursor()
         cursor.execute(sql)
         res = cursor.fetchall()
-        return res
+
+        data = []
+        for row in res:
+            data.append({
+                'id': row[0],
+                'url': row[1],
+                'percent': row[2],
+            })
+
+        return {'data': data}
 
     def lang(self, url):
         sql = """SELECT lang, size, line_count from repo_langs WHERE repo_git_id in (SELECT git_id from registerd_repos WHERE url_id in (SELECT id FROM registerd_urls WHERE url=%s))"""
