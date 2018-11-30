@@ -1,0 +1,2 @@
+CREATE table top_javascript_packages SELECT package_id, count(repo_git_id) from packages_javascript_usage GROUP BY package_id;
+create table top_javascript_packages_names SELECT packages_javascript.name, top_javascript_packages.`count(repo_git_id)` FROM packages_javascript INNER JOIN top_javascript_packages on packages_javascript.id=top_javascript_packages.package_id;

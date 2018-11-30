@@ -57,6 +57,14 @@ class Service:
         db.closeDB()
         return json.dumps(result)
 
+    def packages_javascript(self, url):
+        url = normalize_url(url)
+
+        db = RegisterDB()
+        result = db.packages_javascript(url)
+        db.closeDB()
+        return json.dumps(result)
+
     def is_invalid(self, url):
         repo_path = (url.split('/'))
         user_name = None

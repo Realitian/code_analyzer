@@ -80,3 +80,21 @@ class RegisterDB:
             }]
 
         return {'ok': True, 'data': data}
+
+    def packages_javascript(self, url):
+        sql = """SELECT name FROM packages_javascript WHERE id in (SELECT package_id FROM packages_javascript_usage WHERE repo_git_id in (SELECT git_id from registerd_repos WHERE url_id in (SELECT id FROM registerd_urls WHERE url=%s)))"""
+        cursor = self.db.cursor()
+        cursor.execute(sql, url)
+        res = cursor.fetchall()
+
+        data = []
+        id = 1
+        for row in res:
+            data.append({
+                'id': id,
+                'package': row[0]
+            })
+            id += 1
+
+        return {'data': data}
+

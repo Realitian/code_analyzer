@@ -46,6 +46,11 @@ def lang():
     repo_url = request.args['repo_url']
     return service.lang(repo_url)
 
+@app.route('/api/packages_javascript', methods = ['GET', 'POST'])
+def packages_javascript():
+    repo_url = request.args['repo_url']
+    return service.packages_javascript(repo_url)
+
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(host='0.0.0.0', port=5000)

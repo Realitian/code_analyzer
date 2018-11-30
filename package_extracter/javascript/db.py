@@ -40,7 +40,7 @@ class AnalysisDB:
 
         for package in packages:
             try:
-                sql = """INSERT INTO packages_javascript_usage (repo_id, package_id) VALUES (%s, (SELECT id FROM packages_javascript WHERE name=%s))"""
+                sql = """INSERT INTO packages_javascript_usage (repo_git_id, package_id) VALUES (%s, (SELECT id FROM packages_javascript WHERE name=%s))"""
                 cursor = self.db.cursor()
                 cursor.execute(sql, (repo_git_id, package))
                 self.db.commit()
