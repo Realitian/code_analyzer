@@ -197,12 +197,11 @@ function showList() {
 
         setTimeout(function() {
             showTag($('#list-processing'))
-            showListTable()
         }, 1000)
     }, 2000)
 }
 
-function showListTable() {
+function createListTable() {
     let url = api.listUrl()
 
     var table = $('#table-processing').DataTable({
@@ -225,11 +224,8 @@ function showListTable() {
     $('#table-processing tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
 
-        var percent = JSON.parse(data[2])
-        let url = data[1]
-
-        if ( percent > 0 ) {
-            window.location.href = "#lang?url=" + url
+        if ( data.percent > 0 ) {
+            window.location.href = "#lang?url=" + data.url
         }
     } );
 }
@@ -331,4 +327,5 @@ $(document).ready(function() {
 
     showMain()
     inputProc()
+    createListTable()
 })
