@@ -129,20 +129,12 @@ class Analyzer:
             try:
                 file = os.path.relpath(d, self.dir)
                 size = os.path.getsize(d)
-                file_name = os.path.splitext(file)[0]
-                if file_name == 'README':
-                    with open(d, 'r') as content_file:
-                        content = content_file.read()
-                        if content:
-                            try:
-                                content = content.decode('utf-8')
-                                self.lang = langdetect.detect(content)
-                            except Exception as ex:
-                                pass
 
                 is_bin = is_binary(d)
                 count = 0
-                if not is_bin:
+                if is_bin:
+                    rmfile(d)
+                else:
                     count = len(open(d).readlines())
                 language = None
                 try:
