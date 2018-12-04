@@ -16,6 +16,18 @@ var langTable = $('#table-langs').DataTable({
     order: [[ 2, "desc" ]]
 });
 
+var packageTable = $('#table-package').DataTable({
+    columns: [
+        { title: "Name" },
+        { title: "Used Count" },
+    ],
+    bPaginate: true,
+    info: false,
+    searching: true,
+    order: [[ 1, "desc" ]]
+});
+
+
 function readyStringAnimation() {
     $('.to-split').each(function(index) {
         var characters = $(this)
@@ -98,6 +110,17 @@ function showMain() {
             .first()
             .find('.animate')
             .addClass('show')
+
+        showTag(
+            $('.step-container')
+                .eq(1)
+                .find('.animate')
+        )
+        showTag(
+            $('.step-container')
+                .eq(2)
+                .find('.animate')
+        )
     }, 500)
     
     showInput()
@@ -187,6 +210,7 @@ function showList() {
     $('#thanks-container').css('display', 'none')
     $('#list-container').css('display', 'block')
     $('#lang-container').css('display', 'none')
+    $('#package-list-container').css('display', 'none')
 
     setTimeout(function() {
         showTag(
@@ -228,6 +252,13 @@ function createListTable() {
             window.location.href = "#lang?url=" + data.url
         }
     } );
+
+    $('#table-langs tbody').on('click', 'tr', function () {
+        let url = window.location.href.substring(window.location.href.indexOf('url=')+4)
+        let lang = this.firstChild.innerHTML
+        if ( lang == 'JavaScript' || lang == 'Python' )
+            window.location.href = "#url?lang=" + lang + "&url=" + url
+    } );
 }
 
 function showLangTable(data) {
@@ -250,6 +281,7 @@ function showLang(query) {
     $('#thanks-container').css('display', 'none')
     $('#list-container').css('display', 'none')
     $('#lang-container').css('display', 'block')
+    $('#package-list-container').css('display', 'none')
 
     showTag(
         $('.step-container')
@@ -263,6 +295,63 @@ function showLang(query) {
     
     setTimeout(function() {
         showTag($('#lang-stats'))
+    }, 1000)
+}
+
+function showPackageTable(data) {
+    packageTable.clear()
+    packageTable.rows.add(data)
+    packageTable.draw()
+}
+
+function showPackage(lang) {
+    let title = 'Overall ' + lang[0].toUpperCase() + lang.substring(1) + ' Package Usage'
+    $('#lang-package').text( title )
+
+    $('#input-container').css('display', 'none')
+    $('#thanks-container').css('display', 'none')
+    $('#list-container').css('display', 'none')
+    $('#lang-container').css('display', 'none')
+    $('#package-list-container').css('display', 'block')
+
+    showTag(
+        $('.step-container')
+            .eq(4)
+            .find('.animate')
+    )
+
+    api.package(lang, showPackageTable)
+    
+    setTimeout(function() {
+        showTag($('#package-list'))
+    }, 1000)
+}
+
+function showRepoPackage(params) {
+    params = params.split('&')
+    let lang = params[0].substring(params[0].indexOf('=')+1)
+    let url = params[1].substring(params[1].indexOf('=')+1)
+    window.console.log(lang, url)
+
+    let title = lang[0].toUpperCase() + lang.substring(1) + ' Package Usage Of ' + url
+    $('#lang-package').text( title )
+
+    $('#input-container').css('display', 'none')
+    $('#thanks-container').css('display', 'none')
+    $('#list-container').css('display', 'none')
+    $('#lang-container').css('display', 'none')
+    $('#package-list-container').css('display', 'block')
+
+    showTag(
+        $('.step-container')
+            .eq(4)
+            .find('.animate')
+    )
+
+    api.reposPackage(lang, url, showPackageTable)
+    
+    setTimeout(function() {
+        showTag($('#package-list'))
     }, 1000)
 }
 
@@ -305,9 +394,15 @@ router.on({
     lang: (param, query) => {
         showLang(query)
     },
+    package: (param, lang) => {
+        showPackage(lang)
+    },
+    url:(param, params) => {
+        showRepoPackage(params)
+    },
     '': () => {
         showMain()
-    }
+    }    
 })
 
 // set the default route

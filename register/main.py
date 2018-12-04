@@ -57,11 +57,15 @@ class Service:
         db.closeDB()
         return json.dumps(result)
 
-    def packages_javascript(self, url):
-        url = normalize_url(url)
-
+    def packages_usage(self, lang):
         db = RegisterDB()
-        result = db.packages_javascript(url)
+        result = db.packages_usage(lang)
+        db.closeDB()
+        return json.dumps(result)
+
+    def repo_packages_usage(self, lang, url):
+        db = RegisterDB()
+        result = db.repo_packages_usage(lang, url)
         db.closeDB()
         return json.dumps(result)
 

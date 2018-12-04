@@ -51,6 +51,40 @@ const api = {
                 console.log(error)
             }
         })
+    },
+
+    package: function(language, showTable) {
+        let data = { lang: language }
+        $.ajax({
+            type: 'GET',
+            url: baseUrl + 'packages',
+            dataType: 'JSON',
+            data: data,
+            success: function(data) {
+                showTable(data)
+            },
+            error: function(xhr, status, error) {
+                console.log(status)
+                console.log(error)
+            }
+        })
+    },
+
+    reposPackage: function(language, url, showTable) {
+        let data = { lang: language, url: url }
+        $.ajax({
+            type: 'GET',
+            url: baseUrl + 'repopackages',
+            dataType: 'JSON',
+            data: data,
+            success: function(data) {
+                showTable(data)
+            },
+            error: function(xhr, status, error) {
+                console.log(status)
+                console.log(error)
+            }
+        })
     }
 }
 

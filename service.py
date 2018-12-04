@@ -46,10 +46,16 @@ def lang():
     repo_url = request.args['repo_url']
     return service.lang(repo_url)
 
-@app.route('/api/packages_javascript', methods = ['GET', 'POST'])
-def packages_javascript():
-    repo_url = request.args['repo_url']
-    return service.packages_javascript(repo_url)
+@app.route('/api/packages', methods = ['GET', 'POST'])
+def packages():
+    lang = request.args['lang']
+    return service.packages_usage(lang)
+
+@app.route('/api/repopackages', methods = ['GET', 'POST'])
+def repo_packages():
+    lang = request.args['lang']
+    url = request.args['url']
+    return service.repo_packages_usage(lang, url)
 
 if __name__ == '__main__':
     # app.run(debug=True)

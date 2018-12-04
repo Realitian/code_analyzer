@@ -2,15 +2,15 @@ import pymysql
 from datetime import datetime
 
 class DB_CONFIG:
-    IP_ADDRESS = 'localhost'
-    USER_NAME = "root"
-    USER_PASSWORD = "rootroot"
-    DB_NAME = "code_analysis"
-
-    # IP_ADDRESS = 'code.turing.services'
-    # USER_NAME = "turingdev"
-    # USER_PASSWORD = "turing2018"
+    # IP_ADDRESS = 'localhost'
+    # USER_NAME = "root"
+    # USER_PASSWORD = "rootroot"
     # DB_NAME = "code_analysis"
+
+    IP_ADDRESS = 'code.turing.services'
+    USER_NAME = "turingdev"
+    USER_PASSWORD = "turing2018"
+    DB_NAME = "code_analysis"
 
 class RegisterDB:
     def __init__(self):
@@ -81,20 +81,48 @@ class RegisterDB:
 
         return {'ok': True, 'data': data}
 
-    def packages_javascript(self, url):
-        sql = """SELECT name FROM packages_javascript WHERE id in (SELECT package_id FROM packages_javascript_usage WHERE repo_git_id in (SELECT git_id from registerd_repos WHERE url_id in (SELECT id FROM registerd_urls WHERE url=%s)))"""
-        cursor = self.db.cursor()
-        cursor.execute(sql, url)
-        res = cursor.fetchall()
+    def packages_usage(self, lang):
+        res = None
+        try:
+            sql = ''
+            if lang == 'javascript':
+                sql = """SELECT name, `count(repo_git_id)` FROM top_javascript_packages_names"""
+            else:
+                sql = """SELECT name, `count(repo_git_id)` FROM top_python_packages_names"""
+            cursor = self.db.cursor()
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        except Exception as ex:
+            print(ex)
 
-        data = []
-        id = 1
-        for row in res:
-            data.append({
-                'id': id,
-                'package': row[0]
-            })
-            id += 1
+        return res
 
-        return {'data': data}
+    def repo_packages_usage(self, lang, url):
+        res = None
+        try:
+            sqls = []
+            if lang == 'JavaScript':
+                sqls.append( """CREATE TEMPORARY table temp (SELECT package_id, count(repo_git_id) FROM packages_javascript_usage WHERE repo_git_id in (SELECT git_id from registerd_repos WHERE url_id in (SELECT id FROM registerd_urls WHERE url=%s)) GROUP BY package_id)""" )
+                sqls.append( """SELECT packages_javascript.name, temp.`count(repo_git_id)` from temp join packages_javascript on packages_javascript.id=temp.package_id""" )
+                sqls.append( """drop table temp""" )
+            elif lang == 'Python':
+                sqls.append("""CREATE TEMPORARY table temp (SELECT package_id, count(repo_git_id) FROM packages_python_usage WHERE repo_git_id in (SELECT git_id from registerd_repos WHERE url_id in (SELECT id FROM registerd_urls WHERE url=%s)) GROUP BY package_id)""")
+                sqls.append("""SELECT packages_python.name, temp.`count(repo_git_id)` from temp join packages_python on packages_python.id=temp.package_id""")
+                sqls.append("""drop table temp""")
+            else:
+                return []
 
+            cursor = self.db.cursor()
+            cursor.execute(sqls[0], url)
+
+            cursor = self.db.cursor()
+            cursor.execute(sqls[1])
+
+            res = cursor.fetchall()
+
+            cursor = self.db.cursor()
+            cursor.execute(sqls[2])
+        except Exception as ex:
+            print(ex)
+
+        return res
