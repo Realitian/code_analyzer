@@ -234,6 +234,7 @@ function createListTable() {
             { title: "Name", data: 'url' },
             { title: "Completed", data: 'percent' }
         ],
+        order: [[ 0, "desc" ]],
         ajax: url
     });
 
