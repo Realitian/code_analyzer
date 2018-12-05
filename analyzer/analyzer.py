@@ -147,3 +147,15 @@ class Analyzer:
         else:
             for item in os.listdir(d):
                 self._listdir((d + '/' + item) if d != '/' else '/' + item)
+
+    def _get_gitid_repo(self, user_name, repo_name):
+        g = Github(client_id=client_id, client_secret=client_secret)
+        gh_user = g.get_user(user_name)
+        repo = gh_user.get_repo(repo_name)
+        return repo.id
+
+if __name__ == '__main__':
+    db = AnalysisDB()
+    (client_id, client_secret) = db.app_id()
+    a = Analyzer()
+    print (a._get_gitid_repo('karpathy', 'tf-agent'))

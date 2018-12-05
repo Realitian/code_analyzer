@@ -2,15 +2,15 @@ import pymysql
 from datetime import datetime
 
 class DB_CONFIG:
-    # IP_ADDRESS = 'localhost'
-    # USER_NAME = "root"
-    # USER_PASSWORD = "rootroot"
-    # DB_NAME = "code_analysis"
-
-    IP_ADDRESS = 'code.turing.services'
-    USER_NAME = "turingdev"
-    USER_PASSWORD = "turing2018"
+    IP_ADDRESS = 'localhost'
+    USER_NAME = "root"
+    USER_PASSWORD = "rootroot"
     DB_NAME = "code_analysis"
+
+    # IP_ADDRESS = 'code.turing.services'
+    # USER_NAME = "turingdev"
+    # USER_PASSWORD = "turing2018"
+    # DB_NAME = "code_analysis"
 
 class RegisterDB:
     def __init__(self):
