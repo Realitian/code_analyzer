@@ -248,10 +248,7 @@ function createListTable() {
     
     $('#table-processing tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
-
-        if ( data.percent > 0 ) {
-            window.location.href = "#lang?url=" + data.url
-        }
+        window.location.href = "#lang?url=" + data.url
     } );
 
     $('#table-langs tbody').on('click', 'tr', function () {

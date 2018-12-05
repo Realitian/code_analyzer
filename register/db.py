@@ -38,7 +38,7 @@ class RegisterDB:
             data.append({
                 'id': row[0],
                 'url': row[1],
-                'percent': row[2],
+                'percent': str(row[2]) + '%',
             })
 
         return {'data': data}
