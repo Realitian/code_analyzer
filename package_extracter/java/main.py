@@ -22,7 +22,7 @@ class Daemon:
         for (repo_git_it, ) in repos:
             packages = analyzer.extract_java_packages(repo_git_it)
             db.update_java_packages(packages, repo_git_it)
-            # db.set_java_extracted(repo_git_it)
+            db.set_java_extracted(repo_git_it)
 
         db.closeDB()
 

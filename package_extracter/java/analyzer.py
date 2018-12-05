@@ -49,26 +49,36 @@ class Analyzer:
                 file = os.path.relpath(d, self.dir)
                 file_name = self._path_leaf(file)
                 if file_name == 'pom.xml':
-                    self.packages.extend(self._parse_package_xml(d))
+                    self.packages.extend(self._parse_pom_xml(d))
             except Exception as ex:
                 print (d, ex)
         else:
             for item in os.listdir(d):
                 self._listdir((d + '/' + item) if d != '/' else '/' + item)
 
-    def _parse_package_xml(self, file):
-        print (file)
+    def _parse_pom_xml(self, file):
+        packages = []
+
         tree = ET.parse(file)
         root = tree.getroot()
-        # print (file)
-        # print (root)
-        # dependencies = root.findall('dependencies')
-        # print ( dependencies )
+        for child in root:
+            if 'dependencies' in child.tag:
+                for dependency in child:
+                    groupId = None
+                    artifactId = None
 
-        return []
+                    for item in dependency:
+                        if 'groupId' in item.tag:
+                            groupId = item.text
+
+                        if 'artifactId' in item.tag:
+                            artifactId = item.text
+
+                    packages.append( groupId + '/' + artifactId )
+
+        return packages
 
 if __name__ == '__main__':
     a = Analyzer()
-    xml = '/home/jin/git_repo/27405247/vso-agent-master/src/test/projects/maven/pom.xml'
-    a._parse_package_xml(xml)
-
+    xml = '/home/jin/Downloads/pom.xml'
+    print (a._parse_pom_xml(xml))
