@@ -87,8 +87,13 @@ class RegisterDB:
             sql = ''
             if lang == 'javascript':
                 sql = """SELECT name, `count(repo_git_id)` FROM top_javascript_packages_names"""
-            else:
+            elif lang == 'python':
                 sql = """SELECT name, `count(repo_git_id)` FROM top_python_packages_names"""
+            elif lang == 'java':
+                sql = """SELECT name, `count(repo_git_id)` FROM top_java_packages_names"""
+            else:
+                return []
+
             cursor = self.db.cursor()
             cursor.execute(sql)
             res = cursor.fetchall()
@@ -108,6 +113,10 @@ class RegisterDB:
             elif lang == 'Python':
                 sqls.append("""CREATE TEMPORARY table temp (SELECT package_id, count(repo_git_id) FROM packages_python_usage WHERE repo_git_id in (SELECT git_id from registerd_repos WHERE url_id in (SELECT id FROM registerd_urls WHERE url=%s)) GROUP BY package_id)""")
                 sqls.append("""SELECT packages_python.name, temp.`count(repo_git_id)` from temp join packages_python on packages_python.id=temp.package_id""")
+                sqls.append("""drop table temp""")
+            elif lang == 'Java':
+                sqls.append("""CREATE TEMPORARY table temp (SELECT package_id, count(repo_git_id) FROM packages_java_usage WHERE repo_git_id in (SELECT git_id from registerd_repos WHERE url_id in (SELECT id FROM registerd_urls WHERE url=%s)) GROUP BY package_id)""")
+                sqls.append("""SELECT packages_java.name, temp.`count(repo_git_id)` from temp join packages_java on packages_java.id=temp.package_id""")
                 sqls.append("""drop table temp""")
             else:
                 return []

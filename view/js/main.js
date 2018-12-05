@@ -256,7 +256,7 @@ function createListTable() {
     $('#table-langs tbody').on('click', 'tr', function () {
         let url = window.location.href.substring(window.location.href.indexOf('url=')+4)
         let lang = this.firstChild.innerHTML
-        if ( lang == 'JavaScript' || lang == 'Python' )
+        if ( lang == 'JavaScript' || lang == 'Python' || lang == 'Java' )
             window.location.href = "#url?lang=" + lang + "&url=" + url
     } );
 }
