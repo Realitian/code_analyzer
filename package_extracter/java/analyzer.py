@@ -57,12 +57,13 @@ class Analyzer:
                 self._listdir((d + '/' + item) if d != '/' else '/' + item)
 
     def _parse_package_xml(self, file):
+        print (file)
         tree = ET.parse(file)
         root = tree.getroot()
-        print (file)
-        print (root)
-        dependencies = root.findall('dependencies')
-        print ( dependencies )
+        # print (file)
+        # print (root)
+        # dependencies = root.findall('dependencies')
+        # print ( dependencies )
 
         return []
 
