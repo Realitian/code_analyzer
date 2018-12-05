@@ -28,7 +28,7 @@ class RegisterDB:
         self.db.commit()
 
     def list(self):
-        sql = """SELECT id, url, percent FROM registerd_urls"""
+        sql = """SELECT id, url, percent FROM registerd_urls ORDER BY at DESC"""
         cursor = self.db.cursor()
         cursor.execute(sql)
         res = cursor.fetchall()
