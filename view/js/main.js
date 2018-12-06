@@ -13,7 +13,8 @@ var langTable = $('#table-langs').DataTable({
     bPaginate: false,
     info: false,
     searching: false,
-    order: [[ 2, "desc" ]]
+    order: [[ 2, "desc" ]],
+    pageLength: 100
 });
 
 var packageTable = $('#table-package').DataTable({
@@ -24,7 +25,8 @@ var packageTable = $('#table-package').DataTable({
     bPaginate: true,
     info: false,
     searching: true,
-    order: [[ 1, "desc" ]]
+    order: [[ 1, "desc" ]],
+    pageLength: 100
 });
 
 
@@ -235,7 +237,8 @@ function createListTable() {
             { title: "Completed", data: 'percent' }
         ],
         order: [[ 0, "desc" ]],
-        ajax: url
+        ajax: url,
+        pageLength: 100
     });
 
     setInterval(function(){
