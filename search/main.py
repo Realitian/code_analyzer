@@ -1,5 +1,6 @@
 from lib.google_search_results import GoogleSearchResults
 from db import SearchDB
+import time
 
 def reg_search_terms():
     db = SearchDB()
@@ -16,20 +17,20 @@ def reg_search_terms():
 def search():
     db = SearchDB()
 
-    try:
-        for (id, term) in db.list_term():
-            q = 'what is "' + term + '" in software developer skills?'
-            print (q)
+    for (id, term) in db.list_term():
+        q = 'what is "' + term + '" in software developer skills?'
+        print (q)
 
-            params = {
-                "q" : q,
-                "location" : "Austin, Texas, United States",
-                "hl" : "en",
-                "gl" : "us",
-                "google_domain" : "google.com",
-                "api_key" : "0743dfb6d57d4f9a64668e9b1facb0a02362d4494884c09e4b573624eb574866",
-            }
+        params = {
+            "q" : q,
+            "location" : "Austin, Texas, United States",
+            "hl" : "en",
+            "gl" : "us",
+            "google_domain" : "google.com",
+            "api_key" : "0743dfb6d57d4f9a64668e9b1facb0a02362d4494884c09e4b573624eb574866",
+        }
 
+        try:
             query = GoogleSearchResults(params)
             dictionary_results = query.get_dictionary()
 
@@ -40,11 +41,16 @@ def search():
                 snippet = result['snippet']
                 link = result['link']
 
-                db.register(term, title, snippet, link)
+                try:
+                    db.register(term, title, snippet, link)
+                except Exception as ex:
+                    print (ex)
 
             db.set_term_had_search(id)
-    except Exception as ex:
-        print (ex)
+        except Exception as ex:
+            print (ex)
+
+            time.sleep(1200)
 
     db.closeDB()
 
