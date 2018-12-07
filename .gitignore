@@ -4,3 +4,4 @@ view/node_modules
 view/.sass-cache
 .idea
 view/package-lock.json
+search/env
