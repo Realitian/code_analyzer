@@ -163,13 +163,14 @@ class Analyzer:
 
                 is_bin = is_binary(d)
                 mime = mimetypes.guess_type(d)
-
                 self.files.append((file, is_bin, size, mime))
+            except Exception as ex:
+                print (ex)
         else:
             for item in os.listdir(d):
                 self._list_mime((d + '/' + item) if d != '/' else '/' + item)
 
-    def get_mime(self, git_id)
+    def get_mime(self, git_id):
         output_dir = self.repo_dir_root + str(git_id)
         self._list_mime(output_dir)
         print( self.files )
