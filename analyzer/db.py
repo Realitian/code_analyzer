@@ -93,11 +93,17 @@ class AnalysisDB:
         return res
 
     def get_git_id_list(self):
-        sql = """SELECT repo_git_id FROM repo_size"""
+        sql = """SELECT repo_git_id FROM repo_langs GROUP BY repo_git_id"""
         cursor = self.db.cursor()
         cursor.execute(sql)
         res = cursor.fetchall()
         return res
+
+    def put_content(self, repo_git_id, is_binary, file_size, mime_type, mime_subtype, extension):
+        sql = """INSERT INTO repo_contents (repo_git_id, is_binary, file_size, mime_type, mime_subtype, extension) VALUES (%s, %s, %s, %s, %s, %s)"""
+        cursor = self.db.cursor()
+        cursor.execute(sql, (repo_git_id, is_binary, file_size, mime_type, mime_subtype, extension))
+        self.db.commit()
 
     """
     related to github app id

@@ -160,29 +160,57 @@ class Analyzer:
             try:
                 file = os.path.relpath(d, self.dir)
                 size = os.path.getsize(d)
+                filename, extension = os.path.splitext(file)
 
                 is_bin = is_binary(d)
                 mime = mimetypes.guess_type(d)
-                self.files.append((is_bin, size, mime, file))
+                if mime[0]:
+                    mime = mime[0].split('/')
+                self.files.append((is_bin, size, mime, extension))
             except Exception as ex:
                 print (ex)
         else:
             for item in os.listdir(d):
                 self._list_mime((d + '/' + item) if d != '/' else '/' + item)
 
-    def get_mime(self, git_id):
-        self.files = []
+    def get_mime(self, git_id, db):
+        (client_id, client_secret) = db.app_id()
+        g = Github(client_id=client_id, client_secret=client_secret)
+        repo = g.get_repo(git_id)
+
+        url = repo.html_url + '/archive/master.zip'
+
+        output_file = self.repo_dir_root + str(git_id) + '.zip'
         output_dir = self.repo_dir_root + str(git_id)
-        self._list_mime(output_dir)
-        for file in self.files:
-            print (file)
+
+        command = subprocess.Popen(['wget', '--output-document', output_file, url], stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
+        out, err = command.communicate()
+        if err.find('200 OK') < 0:
+            self.error = ERR_CANNOT_DOWNLOAD
+        else:
+            unzip_to(output_file, output_dir)
+
+            self.files = []
+            output_dir = self.repo_dir_root + str(git_id)
+            self._list_mime(output_dir)
+            for file in self.files:
+                is_binary = file[0]
+                file_size = file[1]
+                mime_type = file[2][0]
+                mime_subtype = file[2][1]
+                extension = file[3]
+                db.put_content(git_id, is_binary, file_size, mime_type, mime_subtype, extension)
+                print (git_id, is_binary, file_size, mime_type, mime_subtype, extension)
+
+            rmdir(output_dir)
+            rmfile(output_file)
 
 if __name__ == '__main__':
     db = AnalysisDB()
-    (client_id, client_secret) = db.app_id()
+
     a = Analyzer()
-    # print (a._get_gitid_repo('karpathy', 'tf-agent'))
 
     for git_id in db.get_git_id_list():
-        a.get_mime(git_id[0])
+        a.get_mime(git_id[0], db)
         print ('#####\n')
