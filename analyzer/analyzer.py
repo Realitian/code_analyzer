@@ -163,7 +163,7 @@ class Analyzer:
 
                 is_bin = is_binary(d)
                 mime = mimetypes.guess_type(d)
-                self.files.append((file, is_bin, size, mime))
+                self.files.append((is_bin, size, mime, file))
             except Exception as ex:
                 print (ex)
         else:
@@ -171,13 +171,18 @@ class Analyzer:
                 self._list_mime((d + '/' + item) if d != '/' else '/' + item)
 
     def get_mime(self, git_id):
+        self.files = []
         output_dir = self.repo_dir_root + str(git_id)
         self._list_mime(output_dir)
-        print( self.files )
+        for file in self.files:
+            print (file)
 
 if __name__ == '__main__':
     db = AnalysisDB()
     (client_id, client_secret) = db.app_id()
     a = Analyzer()
     # print (a._get_gitid_repo('karpathy', 'tf-agent'))
-    a.get_mime(15435)
+
+    for git_id in db.get_git_id_list():
+        a.get_mime(git_id[0])
+        print ('#####\n')

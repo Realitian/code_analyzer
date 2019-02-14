@@ -92,6 +92,12 @@ class AnalysisDB:
         res = cursor.fetchall()
         return res
 
+    def get_git_id_list(self):
+        sql = """SELECT repo_git_id FROM repo_size"""
+        cursor = self.db.cursor()
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        return res
 
     """
     related to github app id
