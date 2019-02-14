@@ -1,0 +1,165 @@
+{
+  "search_metadata": {
+    "id": "5c09deb867ccdc4056434022",
+    "status": "Success",
+    "created_at": "2018-12-07 02:45:12 UTC",
+    "processed_at": "2018-12-07 02:45:12 UTC",
+    "google_url": "https://www.google.com/search?q=what+is+%22A%2FB+tests%22+in+software+developer+skills%3F&oq=what+is+%22A%2FB+tests%22+in+software+developer+skills%3F&uule=w+CAIQICIaQXVzdGluLFRleGFzLFVuaXRlZCBTdGF0ZXM&hl=en&gl=us&sourceid=chrome&ie=UTF-8",
+    "total_time_taken": 1.44
+  },
+  "search_parameters": {
+    "q": "what is \"A/B tests\" in software developer skills?",
+    "location_requested": "Austin, Texas, United States",
+    "location_used": "Austin,Texas,United States",
+    "google_domain": "google.com",
+    "hl": "en",
+    "gl": "us",
+    "device": "desktop"
+  },
+  "search_information": {
+    "total_results": 111000,
+    "time_taken_displayed": 0.38,
+    "query_displayed": "what is \"A/B tests\" in software developer skills?"
+  },
+  "related_questions": [
+    {
+      "question": "What is AB testing in Analytics?",
+      "snippet": "AB testing is essentially an experiment where two or more variants of a page are shown to users at random, and statistical analysis is used to determine which variation performs better for a given conversion goal.",
+      "title": "A/B Testing - Optimizely",
+      "link": "https://www.optimizely.com/optimization-glossary/ab-testing/",
+      "displayed_link": "https://www.optimizely.com/optimization-glossary/ab-testing/"
+    },
+    {
+      "question": "What are a B testing tools?",
+      "snippet": "10 A/B testing tools to help improve conversionsUnbounce. Unbounce lets you build, publish and test responsive landing pages, without any knowledge of HTML. ... VWO. ... Five Second Test. ... Google Analytics Experiments. ... Convert Experiment. ... Maxymiser. ... A/Bingo. ... KISSmetrics.More items...•Jan 30, 2015",
+      "title": "10 A/B testing tools to help improve conversions - Mashable",
+      "link": "https://mashable.com/2015/01/30/ab-testing-tools/",
+      "displayed_link": "https://mashable.com/2015/01/30/ab-testing-tools/"
+    },
+    {
+      "question": "What does AB testing mean?",
+      "snippet": "A/B testing (sometimes called split testing) is comparing two versions of a web page to see which one performs better. You compare two web pages by showing the two variants (let's call them A and B) to similar visitors at the same time. The one that gives a better conversion rate, wins!",
+      "title": "A/B Testing - The Complete Guide | VWO",
+      "link": "https://vwo.com/ab-testing/",
+      "displayed_link": "https://vwo.com/ab-testing/"
+    }
+  ],
+  "organic_results": [
+    {
+      "position": 1,
+      "title": "A/B tests developer's manual – Coder.Today",
+      "link": "https://coder.today/a-b-tests-developers-manual-f57f5c1a492",
+      "displayed_link": "https://coder.today/a-b-tests-developers-manual-f57f5c1a492",
+      "date": "Sep 22, 2017",
+      "snippet": "Developers manual for clean A/B tests. Best case scenario: Your .... Software Engineer — Productivity: best 8 coding tips. I am lazy but I care ...",
+      "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:rLvfGdaHaw8J:https://coder.today/a-b-tests-developers-manual-f57f5c1a492+&cd=1&hl=en&ct=clnk&gl=us"
+    },
+    {
+      "position": 2,
+      "title": "The Three Types of A/B Tests – Towards Data Science",
+      "link": "https://towardsdatascience.com/the-three-types-of-a-b-tests-ac544a5783f8",
+      "displayed_link": "https://towardsdatascience.com/the-three-types-of-a-b-tests-ac544a5783f8",
+      "date": "Dec 30, 2017",
+      "snippet": "The Three Types of A/B Tests ... and also misunderstood concept in the world of data: A/B tests. .... need a mix of business, product, and statistical skills that usually only data ... a software company: A/B tests, rollouts, and scientific experiments. ... Data Science · Ab Testing · Analytics · Software Development.",
+      "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:oTfDm0c_ft0J:https://towardsdatascience.com/the-three-types-of-a-b-tests-ac544a5783f8+&cd=8&hl=en&ct=clnk&gl=us"
+    },
+    {
+      "position": 3,
+      "title": "What is A/B testing (split testing)? - Definition from WhatIs.com",
+      "link": "https://searchbusinessanalytics.techtarget.com/definition/A-B-testing",
+      "displayed_link": "https://searchbusinessanalytics.techtarget.com/definition/A-B-testing",
+      "date": "Aug 26, 2016",
+      "snippet": "A/B testing is commonly used in web development to ensure that changes to ... A/B tests are blind studies and the participants are unaware that a test is being conducted. ... known as SPSS Statistics, is a software package used for the analysis of. ... Strategies for finding analytics skills, despite the shortage.",
+      "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:C1gb_ilJXH8J:https://searchbusinessanalytics.techtarget.com/definition/A-B-testing+&cd=9&hl=en&ct=clnk&gl=us"
+    },
+    {
+      "position": 4,
+      "title": "What is A/B testing? | Kameleoon",
+      "link": "https://www.kameleoon.com/en/ab-testing",
+      "displayed_link": "https://www.kameleoon.com/en/ab-testing",
+      "snippet": "How to Run A/B Tests That Give Your Business Big Wins .... Five skills you need to make AB testing work ... Supplement your A/B test software with these tools:.",
+      "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:rOx_5LjiVF8J:https://www.kameleoon.com/en/ab-testing+&cd=10&hl=en&ct=clnk&gl=us"
+    },
+    {
+      "position": 5,
+      "title": "Product Management Skills: How to Use A/B Testing? - Product School",
+      "link": "https://www.productschool.com/blog/product-management-2/skills/product-management-skills-a-b-testing/",
+      "displayed_link": "https://www.productschool.com › Blog › Product Management › Skills",
+      "snippet": "Also known as split testing, A/B tests consist of dividing an audience into two or more groups (depending on how many variants are being compared) and ...",
+      "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:7MwEPsA7y-MJ:https://www.productschool.com/blog/product-management-2/skills/product-management-skills-a-b-testing/+&cd=11&hl=en&ct=clnk&gl=us"
+    },
+    {
+      "position": 6,
+      "title": "A/B testing in Product Management - To Learn or To Ship? - Product ...",
+      "link": "https://www.productschool.com/blog/product-management-2/skills/ab-testing-product-management/",
+      "displayed_link": "https://www.productschool.com › Blog › Product Management › Skills",
+      "snippet": "Blog | Product Management | Skills | A/B testing in Product Management – To Learn or To Ship? ... on as soon as possible in the development process so that they can use that to make the trade-off ... The Thing about A/B tests - To Learn or To Ship? ... “to learn” testing or iteration your engineers and designers don't think so.",
+      "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:ZWOLQdOochUJ:https://www.productschool.com/blog/product-management-2/skills/ab-testing-product-management/+&cd=12&hl=en&ct=clnk&gl=us"
+    },
+    {
+      "position": 7,
+      "title": "A/B Testing Mastery: From Beginner To Pro in a Blog Post",
+      "link": "https://conversionxl.com/blog/ab-testing-guide/",
+      "displayed_link": "https://conversionxl.com › All Things Data-Driven Marketing",
+      "date": "Dec 2, 2015",
+      "snippet": "From testing the wrong things to running A/B tests incorrectly, there are lots of .... Ideally you'd have a test developer be part of prioritization discussions. .... Some skills that come in handy when setting up tests are HTML, CSS, and .... “If your testing software only does one type or the other, don't sweat it.",
+      "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:oCp00BmTS8MJ:https://conversionxl.com/blog/ab-testing-guide/+&cd=13&hl=en&ct=clnk&gl=us"
+    },
+    {
+      "position": 8,
+      "title": "A/B testing - Wikipedia",
+      "link": "https://en.wikipedia.org/wiki/A/B_testing",
+      "displayed_link": "https://en.wikipedia.org/wiki/A/B_testing",
+      "snippet": "A/B testing is a randomized experiment with two variants, A and B. It includes application of ... Simple A/B tests are not valid for observational, quasi-experimental or other ... A/B testing as a philosophy of web development brings the field into line with a broader movement .... Market research · Experiments · Software testing ...",
+      "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:pd-TJwfVSiUJ:https://en.wikipedia.org/wiki/A/B_testing+&cd=14&hl=en&ct=clnk&gl=us",
+      "related_pages_link": "https://www.google.com/search?hl=en&gl=us&q=related:https://en.wikipedia.org/wiki/A/B_testing+what+is+%22A/B+tests%22+in+software+developer+skills%3F&tbo=1&sa=X&ved=2ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQHzANegQIAhAF"
+    },
+    {
+      "position": 9,
+      "title": "A/B Testing - Udacity",
+      "link": "https://www.udacity.com/course/ab-testing--ud257",
+      "displayed_link": "https://www.udacity.com/course/ab-testing--ud257",
+      "snippet": "This course will cover the design and analysis of A/B tests, also known as split tests, which ... Enhance your skill set and boost your hirability through innovative, ...",
+      "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:pDoK2-0w4SwJ:https://www.udacity.com/course/ab-testing--ud257+&cd=15&hl=en&ct=clnk&gl=us",
+      "related_pages_link": "https://www.google.com/search?hl=en&gl=us&q=related:https://www.udacity.com/course/ab-testing--ud257+what+is+%22A/B+tests%22+in+software+developer+skills%3F&tbo=1&sa=X&ved=2ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQHzAOegQICxAF"
+    },
+    {
+      "position": 10,
+      "title": "How to Run A/B Tests Successfully by Vice Media Product Manager",
+      "link": "https://www.slideshare.net/productschool/how-to-run-ab-tests-successfully-by-vice-media-product-manager",
+      "displayed_link": "https://www.slideshare.net/.../how-to-run-ab-tests-successfully-by-vice-media-product-...",
+      "date": "Jul 18, 2018",
+      "snippet": "This was an informal chat about what it's like running A/B Tests for a media company. ... COURSES Product Management Learn the skills you need to land a ... and gain the technical knowledge to lead software engineers; 5.",
+      "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:21BndnNJkUUJ:https://www.slideshare.net/productschool/how-to-run-ab-tests-successfully-by-vice-media-product-manager+&cd=16&hl=en&ct=clnk&gl=us"
+    }
+  ],
+  "related_searches": [
+    {
+      "query": "a/b testing",
+      "link": "https://www.google.com/search?hl=en&gl=us&q=a/b+testing&sa=X&ved=2ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ1QIoAHoECAUQAQ"
+    },
+    {
+      "query": "how to do a/b testing",
+      "link": "https://www.google.com/search?hl=en&gl=us&q=how+to+do+a/b+testing&sa=X&ved=2ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ1QIoAXoECAUQAg"
+    },
+    {
+      "query": "a/b testing data science",
+      "link": "https://www.google.com/search?hl=en&gl=us&q=a/b+testing+data+science&sa=X&ved=2ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ1QIoAnoECAUQAw"
+    }
+  ],
+  "pagination": {
+    "current": 1,
+    "next": "https://www.google.com/search?q=what+is+%22A/B+tests%22+in+software+developer+skills%3F&hl=en&gl=us&ei=ud4JXOWEAbSX1fAPpuuW2AQ&start=10&sa=N&ved=0ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ8NMDCKoB",
+    "other_pages": {
+      "2": "https://www.google.com/search?q=what+is+%22A/B+tests%22+in+software+developer+skills%3F&hl=en&gl=us&ei=ud4JXOWEAbSX1fAPpuuW2AQ&start=10&sa=N&ved=0ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ8tMDCJgB",
+      "3": "https://www.google.com/search?q=what+is+%22A/B+tests%22+in+software+developer+skills%3F&hl=en&gl=us&ei=ud4JXOWEAbSX1fAPpuuW2AQ&start=20&sa=N&ved=0ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ8tMDCJoB",
+      "4": "https://www.google.com/search?q=what+is+%22A/B+tests%22+in+software+developer+skills%3F&hl=en&gl=us&ei=ud4JXOWEAbSX1fAPpuuW2AQ&start=30&sa=N&ved=0ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ8tMDCJwB",
+      "5": "https://www.google.com/search?q=what+is+%22A/B+tests%22+in+software+developer+skills%3F&hl=en&gl=us&ei=ud4JXOWEAbSX1fAPpuuW2AQ&start=40&sa=N&ved=0ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ8tMDCJ4B",
+      "6": "https://www.google.com/search?q=what+is+%22A/B+tests%22+in+software+developer+skills%3F&hl=en&gl=us&ei=ud4JXOWEAbSX1fAPpuuW2AQ&start=50&sa=N&ved=0ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ8tMDCKAB",
+      "7": "https://www.google.com/search?q=what+is+%22A/B+tests%22+in+software+developer+skills%3F&hl=en&gl=us&ei=ud4JXOWEAbSX1fAPpuuW2AQ&start=60&sa=N&ved=0ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ8tMDCKIB",
+      "8": "https://www.google.com/search?q=what+is+%22A/B+tests%22+in+software+developer+skills%3F&hl=en&gl=us&ei=ud4JXOWEAbSX1fAPpuuW2AQ&start=70&sa=N&ved=0ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ8tMDCKQB",
+      "9": "https://www.google.com/search?q=what+is+%22A/B+tests%22+in+software+developer+skills%3F&hl=en&gl=us&ei=ud4JXOWEAbSX1fAPpuuW2AQ&start=80&sa=N&ved=0ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ8tMDCKYB",
+      "10": "https://www.google.com/search?q=what+is+%22A/B+tests%22+in+software+developer+skills%3F&hl=en&gl=us&ei=ud4JXOWEAbSX1fAPpuuW2AQ&start=90&sa=N&ved=0ahUKEwilxerV2YzfAhW0SxUIHaa1BUsQ8tMDCKgB"
+    }
+  }
+}

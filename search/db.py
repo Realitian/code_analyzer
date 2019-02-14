@@ -1,15 +1,16 @@
 import pymysql
+import urlparse
 
 class DB_CONFIG:
-    IP_ADDRESS = 'localhost'
-    USER_NAME = "root"
-    USER_PASSWORD = "rootroot"
-    DB_NAME = "code_analysis"
-
-    # IP_ADDRESS = 'code.turing.services'
-    # USER_NAME = "turingdev"
-    # USER_PASSWORD = "turing2018"
+    # IP_ADDRESS = 'localhost'
+    # USER_NAME = "root"
+    # USER_PASSWORD = "rootroot"
     # DB_NAME = "code_analysis"
+
+    IP_ADDRESS = 'code.turing.services'
+    USER_NAME = "turingdev"
+    USER_PASSWORD = "turing2018"
+    DB_NAME = "code_analysis"
 
 class SearchDB:
     def __init__(self):
@@ -31,7 +32,7 @@ class SearchDB:
                 print (ex)
 
     def list_term(self):
-        sql = """SELECT id, term FROM search_terms WHERE had_search is NULL"""
+        sql = """SELECT id, term FROM search_terms WHERE had_search=1"""
         cursor = self.db.cursor()
         cursor.execute(sql)
         res = cursor.fetchall()
@@ -40,7 +41,7 @@ class SearchDB:
     def set_term_had_search(self, id):
         sql = """UPDATE search_terms SET had_search=%s WHERE id=%s"""
         cursor = self.db.cursor()
-        cursor.execute(sql, (1, id))
+        cursor.execute(sql, (2, id))
         self.db.commit()
 
     def reg_term(self, term):
@@ -52,3 +53,22 @@ class SearchDB:
         except Exception as ex:
             if ex.args[0] != 1062:
                 print (ex)
+
+    def get_urls(self):
+        sql = """SELECT link FROM search_result"""
+        cursor = self.db.cursor()
+        cursor.execute(sql)
+        links = cursor.fetchall()
+
+        urls = set()
+        for link, in links:
+            re = urlparse.urlparse(link)
+            urls.add(re.netloc)
+
+        for url in urls:
+            print (url)
+
+
+if __name__ == '__main__':
+    db = SearchDB()
+    db.get_urls()

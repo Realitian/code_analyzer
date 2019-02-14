@@ -1,0 +1,182 @@
+A/B testing
+A/B tests
+Agile
+Agile methodologies
+Agile/ Scrum project experience
+AJAX
+algorithms, data structures
+Amazon Web Services
+Android SDK
+Angular Js
+Ansilble
+Apache Solr
+API's
+Arista
+Artificial neural networks
+Automation testing using Selenium
+AWS
+AWS Services
+Azure
+Backbone.js
+Big Data
+Big Data Technologies
+Bootstrap
+C
+C#
+C++
+C++/C
+Caffe
+Cassandra
+cgroups
+CI
+Cisco
+Clojure
+Coca Touch
+Computer vision
+configuring systems monitoring tools
+CoreOS
+CSS
+Css3
+Dagger
+Deep Learning algorithms
+Design Patterns
+Develop test plans
+DevOps
+Distributed File Systems
+Django
+DNS
+Docker
+EC2
+ElasticSearch
+Ember.js
+ETL Design/ Data Pipelines
+Git
+GitHub
+Go
+Golang
+Google BigQuery
+Google Cloud Platform
+Hadoop
+Heroku
+Hive
+HTML
+Html5
+HTTP
+HTTP protocol
+ICMP
+iOS
+iOS Development
+IOS SDK
+IOS UX/ UI
+IPMI
+Java
+JavaScript
+Jenkins
+JQuery
+JSON
+Junit
+Jupyter
+Jupyter Notebooks
+Kafka
+Keras
+Kernel
+Kotlin
+Kubernetes
+Layer 2 networking
+Linux
+Centos
+Redhat
+Ubuntu
+Linux Platform
+Machine Learning
+Map Reduce
+MariaDB
+ML Frameworks
+mobile testing frameworks / tools
+Mongo DB
+Multi threading
+Multi-threading or Multi-threaded programming
+MVC Technologies/ Frameworks
+MySQL
+Namesspaces
+Native Objective C
+Natural Language Processing
+Natural Language Processing (NLP)
+Neo4J
+Network Protocols
+Nginx
+NLP
+Node.Js
+NOSQL
+Nosql/ Distributed Databases
+NumPy
+Object Oriented
+Oops
+Oracle
+pandas
+Perl
+PHP
+Postgres
+PostgreSQL
+problem solver and critical thinker
+Programming skills / languages (Hybrid mobile applications)
+prometheus
+Puppet
+Python
+PyTorch
+React Js
+React/ Redux
+Redis
+Redshift
+regular expressions
+Report and track software defects
+REST
+REST API's
+RESTful
+Restful API's
+Retrofit
+Ruby
+RxJava
+Saas
+Saltstack
+Scala
+Scala/ Play
+SciKit-Learn
+Scrum
+SDLC
+Security
+Selenium
+Selenium WebDriver
+semantic parsing
+shell scripting
+SOAP
+software design skills
+Solve semi-complex problems
+SpaCy
+Spark
+Spring
+SQL
+SSH
+Stanford CoreNLP
+Statistics
+Stripe
+Swift 
+TCP/IP
+TDD
+TensorFlow
+test coverage
+TLS, Certificate Authorities
+UI
+UI design
+UI Kit
+understanding of mobile technologies (iOS and / or Android)
+Unit Testing
+Unix
+Unix command line
+UX design
+Vertica
+VPN
+Vue.js
+Web Services
+Webpack
+Xcode

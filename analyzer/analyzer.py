@@ -15,6 +15,7 @@
 """
 
 import os
+import mimetypes
 from binaryornot.check import is_binary
 from linguist.file_blob import FileBlob
 import langdetect
@@ -154,8 +155,28 @@ class Analyzer:
         repo = gh_user.get_repo(repo_name)
         return repo.id
 
+    def _list_mime(self, d):
+        if not os.path.isdir(d):
+            try:
+                file = os.path.relpath(d, self.dir)
+                size = os.path.getsize(d)
+
+                is_bin = is_binary(d)
+                mime = mimetypes.guess_type(d)
+
+                self.files.append((file, is_bin, size, mime))
+        else:
+            for item in os.listdir(d):
+                self._list_mime((d + '/' + item) if d != '/' else '/' + item)
+
+    def get_mime(self, git_id)
+        output_dir = self.repo_dir_root + str(git_id)
+        self._list_mime(output_dir)
+        print( self.files )
+
 if __name__ == '__main__':
     db = AnalysisDB()
     (client_id, client_secret) = db.app_id()
     a = Analyzer()
-    print (a._get_gitid_repo('karpathy', 'tf-agent'))
+    # print (a._get_gitid_repo('karpathy', 'tf-agent'))
+    a.get_mime(15435)

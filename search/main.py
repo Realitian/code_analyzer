@@ -1,6 +1,9 @@
 from lib.google_search_results import GoogleSearchResults
 from db import SearchDB
 import time
+import requests
+from BeautifulSoup import BeautifulSoup
+import html2text
 
 def reg_search_terms():
     db = SearchDB()
@@ -54,6 +57,33 @@ def search():
 
     db.closeDB()
 
+def google_custom_search():
+    db = SearchDB()
+
+    for (id, term) in db.list_term():
+        q = 'what is "' + term + '" in software developer skills?'
+        print (q)
+
+        url = 'https://www.googleapis.com/customsearch/v1'
+        params = {
+            'key': 'AIzaSyB6CFLonV3XNyGKTS1IbvkUltXWB7utFTM',
+            'cx': '006891392260290762047:ygzfoe3jngi',
+            'q': q
+        }
+
+        r = requests.get(url=url, params=params)
+        data = r.json()
+        print (data['items'])
+
+def scrap(url):
+    r = requests.get(url=url)
+    # data = r.json()
+    # print (data)
+    text = html2text.html2text(r.text)
+    # soup = BeautifulSoup(r.text)
+    # text = soup.prettify()
+    print (text)
+
 if __name__ == '__main__':
-    # reg_search_terms()
-    search()
+    # google_custom_search()
+    scrap('https://en.wikipedia.org/wiki/A/B_testing')
