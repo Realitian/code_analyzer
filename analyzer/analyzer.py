@@ -166,7 +166,14 @@ class Analyzer:
                 mime = mimetypes.guess_type(d)
                 if mime[0]:
                     mime = mime[0].split('/')
-                self.files.append((is_bin, size, mime, extension))
+
+                language = None
+                try:
+                    language = FileBlob(d).language.name
+                except Exception as ex:
+                    language = 'None'
+
+                self.files.append((is_bin, size, mime, extension, language))
             except Exception as ex:
                 print (ex)
         else:
@@ -174,37 +181,40 @@ class Analyzer:
                 self._list_mime((d + '/' + item) if d != '/' else '/' + item)
 
     def get_mime(self, git_id, db):
-        (client_id, client_secret) = db.app_id()
-        g = Github(client_id=client_id, client_secret=client_secret)
-        repo = g.get_repo(git_id)
+        try:
+            (client_id, client_secret) = db.app_id()
+            g = Github(client_id=client_id, client_secret=client_secret)
+            repo = g.get_repo(git_id)
 
-        url = repo.html_url + '/archive/master.zip'
+            url = repo.html_url + '/archive/master.zip'
 
-        output_file = self.repo_dir_root + str(git_id) + '.zip'
-        output_dir = self.repo_dir_root + str(git_id)
-
-        command = subprocess.Popen(['wget', '--output-document', output_file, url], stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE)
-        out, err = command.communicate()
-        if err.find('200 OK') < 0:
-            self.error = ERR_CANNOT_DOWNLOAD
-        else:
-            unzip_to(output_file, output_dir)
-
-            self.files = []
+            output_file = self.repo_dir_root + str(git_id) + '.zip'
             output_dir = self.repo_dir_root + str(git_id)
-            self._list_mime(output_dir)
-            for file in self.files:
-                is_binary = file[0]
-                file_size = file[1]
-                mime_type = file[2][0]
-                mime_subtype = file[2][1]
-                extension = file[3]
-                db.put_content(git_id, is_binary, file_size, mime_type, mime_subtype, extension)
-                print (git_id, is_binary, file_size, mime_type, mime_subtype, extension)
 
-            rmdir(output_dir)
-            rmfile(output_file)
+            command = subprocess.Popen(['wget', '--output-document', output_file, url], stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE)
+            out, err = command.communicate()
+            if err.find('200 OK') < 0:
+                self.error = ERR_CANNOT_DOWNLOAD
+            else:
+                unzip_to(output_file, output_dir)
+
+                self.files = []
+                output_dir = self.repo_dir_root + str(git_id)
+                self._list_mime(output_dir)
+                for file in self.files:
+                    is_binary = file[0]
+                    file_size = file[1]
+                    mime_type = file[2][0]
+                    mime_subtype = file[2][1]
+                    extension = file[3]
+                    language = file[4]
+                    db.put_content(git_id, is_binary, file_size, mime_type, mime_subtype, extension, language)
+
+                rmdir(output_dir)
+                rmfile(output_file)
+        except Exception as ex:
+            print (git_id, ex)
 
 if __name__ == '__main__':
     db = AnalysisDB()
@@ -213,4 +223,3 @@ if __name__ == '__main__':
 
     for git_id in db.get_git_id_list():
         a.get_mime(git_id[0], db)
-        print ('#####\n')
